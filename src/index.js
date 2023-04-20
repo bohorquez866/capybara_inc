@@ -1,13 +1,10 @@
 const app = require("express")();
+const apiRoutes = require("./routes/api");
+const bodyParser = require("body-parser");
 
-app.get("/", (req, res, next) => {
-  res.json({ message: "some text for docker testing" });
-});
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/api", apiRoutes);
 
 const port = process.env.PORT || 8080;
-
-app.listen(port, () => {
-  console.log(
-    `Gondor Calls for Aid, and Rohan Will Answer at localhost:${port}`
-  );
-});
+app.listen(port);
