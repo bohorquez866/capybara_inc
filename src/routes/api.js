@@ -5,10 +5,9 @@ const loginController = require("../controllers/login");
 const registerController = require("../controllers/register");
 
 //* login Endpoint
-router.post("/login", loginController.loginPost);
-router.get("/login", loginController.authMiddleware);
+router.post("/auth/login", loginController.loginPost);
 
 //* register Endpoint
-router.post("/register", registerController.registerPost);
+router.post("/auth/register", registerController.registerPost);
 
 module.exports = router;

@@ -1,17 +1,22 @@
-const mysql = require("mysql2");
+const Sequalize = require("sequelize");
+require("dotenv").config();
 
-const connection = mysql.createConnection({
-  host: "localhost",
-  port: "3306",
-  user: "root",
-  password: "Jb101226295!",
-  database: "Capybara_inc",
-});
+const sequelize = new Sequalize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql",
+  }
+);
 
-connection.connect((err) => {
-  err
-    ? console.error(`Error connecting to database: ${err.stack}`)
-    : console.log("Connected to database.");
-});
-
-module.exports = connection;
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((error) => {
+    console.error("Unable to connect to the database: ", error);
+  });
+module.exports = sequelize;

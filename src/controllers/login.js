@@ -3,53 +3,26 @@ const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const connection = require("../helpers/sqlInit");
+const jwtHelpers = require("../jwt/index");
 
 const loginPost = (req, res) => {
   const { username, password } = req.body;
-  const query = `SELECT * FROM accounts WHERE account_username = '${username}'`;
+  const query = `SELECT * FROM users WHERE name = '${username}'`;
 
   connection.query(query, (error, results) => {
     if (error) throw error;
-
     const user = results[0];
 
-    if (!user) {
-      return res.send({ error: "User not found" });
+    const passwordIsValid = bcrypt.compareSync(password, user.password);
+
+    if (!passwordIsValid || !user) {
+      return res.status(401).send({ message: "Invalid credentials" });
     }
-
-    bcrypt.compare(password, user.password, (err, result) => {
-      if (err) throw err;
-
-      if (!result) {
-        res.send("Incorrect password");
-        return;
-      }
-
-      // Create a new JWT token
-      const token = jwt.sign(
-        { username: user.username },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      );
-
-      res.send({ token });
-    });
   });
+
+  const token = jwtHelpers.generateToken({ username: user.username });
+  res.header("authorization", token).json({ message: "success", token });
+  return;
 };
 
-// Middleware for verifying JWT token
-const authMiddleware = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) return res.sendStatus(401);
-
-  const token = authHeader.split(" ")[1];
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-    if (err) return res.sendStatus(403);
-    req.user = decodedToken;
-
-    res.send("token found");
-  });
-};
-
-module.exports = { loginPost, authMiddleware };
+module.exports = { loginPost };
