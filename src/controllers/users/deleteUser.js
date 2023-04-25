@@ -10,7 +10,7 @@ const deleteUser = async (req, res, next) => {
     }
 
     await user.destroy();
-    return res.status(204).end();
+    return res.status(204).json({ message: "User deleted" });
   } catch (error) {
     return next(error);
   }

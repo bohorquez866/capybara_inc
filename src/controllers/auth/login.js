@@ -1,12 +1,12 @@
 const bcrypt = require("bcrypt");
-const jwtHelpers = require("../../jwt/index");
+const jwtHelpers = require("../../helpers/jwt/index");
 const Sequelize = require("../../helpers/sqlInit");
-const loginModel = require("../../models/users");
+const userModel = require("../../models/users");
 
 const loginPost = (req, res) => {
   const { username, password } = req.body;
 
-  loginModel.Users.findAll({
+  userModel.Users.findAll({
     where: {
       username: username,
     },

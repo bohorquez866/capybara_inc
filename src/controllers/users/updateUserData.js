@@ -1,4 +1,4 @@
-const loginModel = require("../../models/users");
+const userModel = require("../../models/users");
 const bcrypt = require("bcrypt");
 
 const updateUser = async (req, res) => {
@@ -13,7 +13,7 @@ const updateUser = async (req, res) => {
   };
 
   try {
-    const [rowsUpdated] = await loginModel.Users.update(updatedValues, {
+    const [rowsUpdated] = await userModel.Users.update(updatedValues, {
       where: { id: userId },
     });
 

@@ -1,11 +1,10 @@
-const sequelize = require("../../helpers/sqlInit");
-const loginModel = require("../../models/users");
+const userModel = require("../../models/users");
 const lodash = require("lodash");
 
 const getUserById = (req, res) => {
   const userId = req.params.id;
 
-  loginModel.Users.findByPK(userId)
+  userModel.Users.findByPK(userId)
     .then((user) => {
       const hasValues = !lodash.isEmpty(user);
 
@@ -23,29 +22,25 @@ const getUserById = (req, res) => {
 const getAllUsers = (req, res) => {
   const { limit, role } = req.body;
 
-  if ((role && role === "admin") || role === "superuser") {
-    loginModel.Users.findAll({ limit: +limit })
-      .then((response) => {
-        const hasValues = !lodash.isEmpty(response);
-        console.log(hasValues);
-
-        hasValues
-          ? res.json({ response })
-          : res.json({ errorMessage: "No users found" });
-      })
-      .catch((err) =>
-        res.send({
-          message: err.message,
-        })
-      );
-    return;
+  if (!role === "admin" || !role === "superuser") {
+    return res.status(400).send({
+      message: "You are not authorized, you need to be an admin or superuser",
+    });
   }
 
-  res.send({
-    message: "You are not authorized, you need to be an admin or superuser",
-  });
+  userModel.Users.findAll({ limit: +limit })
+    .then((response) => {
+      const hasValues = !lodash.isEmpty(response);
 
-  next();
+      hasValues
+        ? res.json({ response })
+        : res.json({ errorMessage: "No users found" });
+    })
+    .catch((err) =>
+      res.send({
+        message: err.message,
+      })
+    );
 };
 
 module.exports = { getUserById, getAllUsers };

@@ -3,42 +3,25 @@ require("dotenv").config();
 const userModel = require("../../models/users");
 
 const registerPost = async (req, res) => {
-  const {
+  const { email, password, role, username, english_level, cv_url } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const queryValues = {
     email,
-    password,
+    password: hashedPassword,
+    username,
     role,
-    account_username,
-    client_name,
-    operation_performer,
     english_level,
     cv_url,
-  } = req.body;
+  };
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await userModel.Users.create({
-      email,
-      password: hashedPassword,
-      username: account_username,
-      role,
-      english_level,
-      cv_url,
-    });
-
-    const userId = user.dataValues.id;
-
-    const account = await userModel.Accounts.create({
-      account_username,
-      client_name,
-      operation_performer,
-      user_id: userId,
-    });
-
-    res.json(account);
-  } catch (error) {
-    res.status(500).send({ error });
+  if (role !== "user" && role !== "admin") {
+    return res.status(400).send({ error: "Role must be user or admin" });
   }
+
+  await userModel.Users.create(queryValues)
+    .then((user) => res.status(201).json(user))
+    .catch((err) => res.status(500).send({ error: err }));
 };
 
 module.exports = { registerPost };
