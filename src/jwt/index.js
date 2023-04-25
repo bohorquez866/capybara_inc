@@ -21,6 +21,7 @@ function revokeAccessToken(req, res, next) {
     res.setHeader("Authorization", "");
     res.redirect("/login");
   }
+  next();
 }
 
 module.exports = {
