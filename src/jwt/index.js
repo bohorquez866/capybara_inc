@@ -14,4 +14,17 @@ function validateAccessToken(req, res, next) {
   });
 }
 
-module.exports = { generateAccessToken, validateAccessToken };
+function revokeAccessToken(req, res, next) {
+  const accessToken = req.headers["authorization"];
+
+  if (accessToken) {
+    res.setHeader("Authorization", "");
+    res.redirect("/login");
+  }
+}
+
+module.exports = {
+  generateAccessToken,
+  validateAccessToken,
+  revokeAccessToken,
+};
