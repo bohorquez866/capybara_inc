@@ -8,6 +8,7 @@ const Users = Sequelize.define("users", {
   username: sequelize.DataTypes.STRING,
   english_level: sequelize.DataTypes.STRING,
   cv_url: sequelize.DataTypes.STRING,
+  name: sequelize.DataTypes.STRING,
 });
 
 module.exports = { Users };

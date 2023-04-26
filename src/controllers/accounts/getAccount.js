@@ -1,16 +1,16 @@
-const userModel = require("../../models/users");
+const accountModel = require("../../models/accounts");
 const lodash = require("lodash");
 
-const getUserById = (req, res) => {
-  const userId = req.params.id;
+const getAccountById = (req, res) => {
+  const accountId = req.params.id;
 
-  userModel.Users.findByPK(userId)
-    .then((user) => {
-      const hasValues = !lodash.isEmpty(user);
+  accountModel.Accounts.findByPK(accountId)
+    .then((acct) => {
+      const hasValues = !lodash.isEmpty(acct);
 
       hasValues
         ? res.json({ user })
-        : res.json({ errorMessage: "No user found" });
+        : res.json({ errorMessage: "No Account found" });
     })
     .catch((err) =>
       res.send({
@@ -19,7 +19,7 @@ const getUserById = (req, res) => {
     );
 };
 
-const getAllUsers = (req, res) => {
+const getAllAccounts = (req, res) => {
   const { limit, role } = req.body;
 
   if (role !== "superuser") {
@@ -29,19 +29,19 @@ const getAllUsers = (req, res) => {
     });
   }
 
-  userModel.Users.findAll({ limit: +limit })
+  accountModel.Accounts.findAll({ limit: +limit })
     .then((response) => {
       const hasValues = !lodash.isEmpty(response);
 
       hasValues
         ? res.json({ response })
-        : res.status(404).json({ errorMessage: "No users found" });
+        : res.status(404).json({ errorMessage: "No accounts were found" });
     })
     .catch((err) =>
-      res.send({
+      res.status(500).send({
         message: err.message,
       })
     );
 };
 
-module.exports = { getUserById, getAllUsers };
+module.exports = { getAccountById, getAllAccounts };

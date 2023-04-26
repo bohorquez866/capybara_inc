@@ -1,11 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const createAccountRegistry = require("../controllers/accounts/createAccount");
-const updateAccountRegistry = require("../controllers/accounts/updateAccount");
-const deleteAccountRegistry = require("../controllers/accounts/deleteAccount");
+const createAccountRegistryController = require("../controllers/accounts/createAccount");
+const updateAccountRegistryController = require("../controllers/accounts/updateAccount");
+const deleteAccountRegistryController = require("../controllers/accounts/deleteAccount");
+const getAccountsController = require("../controllers/accounts/getAccount");
 
-router.post("/addAccountRegistry", createAccountRegistry.addAccountRegistry);
-router.put("/updateAccountRegistry", updateAccountRegistry.updateAccount);
-router.delete("deleteAccountRegistry", deleteAccountRegistry.deleteAccount);
+router.get("/getAccountById/:id", getAccountsController.getAccountById);
+
+router.post(
+  "/addAccountRegistry",
+  createAccountRegistryController.addAccountRegistry
+);
+
+router.put(
+  "/updateAccountRegistry",
+  updateAccountRegistryController.updateAccount
+);
+
+router.delete(
+  "deleteAccountRegistry",
+  deleteAccountRegistryController.deleteAccount
+);
 
 module.exports = router;

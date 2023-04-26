@@ -13,13 +13,13 @@ const addAccountRegistry = (req, res, next) => {
     user_id: parsedIntUserId,
   })
     .then((data) => {
-      res.status(201).json({
+      return res.status(201).json({
         message: "Account added successfully",
         data,
       });
     })
     .catch((err) => {
-      res.status(500).json({
+      return res.status(500).json({
         message: "Error adding account",
         err,
         vals: req.body,
