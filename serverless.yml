@@ -1,0 +1,28 @@
+service: capybara-node
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  memorySize: 2048
+  stage: dev
+  timeout: 15
+  region: us-east-1
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: ANY/{proxy+}
+          method: ANY
+      - http:
+          path: ANY/
+          method: ANY
+    environment:
+      JWT_SECRET: sdfsdgsdf45d553tgefgdsdsssHHG$%@!$ddfgfgdf
+      DB_PORT: 3306
+      DB_HOST: localhost
+      DB_USER: root
+      DB_PASSWORD: Jb101226295!
+      DB_NAME: Capybara_inc

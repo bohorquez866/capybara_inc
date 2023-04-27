@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const { swaggerDocs: v1SwaggerDocs } = require("./routes/swagger");
 const apiRoutes = require("./routes");
 const app = express();
 
@@ -10,4 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/v1", apiRoutes);
 
-app.listen(port);
+app.listen(port, () => {
+  v1SwaggerDocs(app, port);
+});
+
+module.exports = app;
