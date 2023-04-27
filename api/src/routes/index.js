@@ -7,6 +7,10 @@ const authRoutes = require("./auth");
 const accountsRoutes = require("./accounts");
 const peopleMovementRoutes = require("./peopleMovements");
 
+
+
+
+
 router.use("/auth", authRoutes);
 router.use("/users", validateAccessToken, userRoutes);
 router.use("/accounts", validateAccessToken, accountsRoutes);
