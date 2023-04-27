@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/v1", apiRoutes);
 
 app.listen(port, () => {
-  v1SwaggerDocs(app, port);
+    v1SwaggerDocs(app, port);
 });
 
 module.exports = app;
