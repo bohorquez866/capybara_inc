@@ -17,3 +17,7 @@ EXPOSE 8080
 
 CMD ["npm", "run", "start"]
 
+
+COPY handler.js .
+CMD [ "handler.hello" ]
+

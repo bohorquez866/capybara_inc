@@ -1,7 +1,6 @@
 "use strict";
-
-const app = require("./src/index");
 const ServerlessHttp = require("serverless-http");
+const app = require("./src/index");
 
 module.exports.hello = ServerlessHttp(app);
 
