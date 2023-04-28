@@ -12,7 +12,7 @@ const getUsers = async () => {
 
 export const createUser = async (userData: User) => {
   try {
-    const response = await HttpClient.post('http://localhost:8080/api/v1/createUser', userData);
+    const response = await HttpClient.post('http://localhost:8080/api/v1/auth/createUser', userData);
     return response.data.data;
   } catch (error) {
     console.error(error);
@@ -21,7 +21,7 @@ export const createUser = async (userData: User) => {
 
 export const updateUser = async (userId: number, userData: User) => {
   try {
-    const response = await HttpClient.put(`http://localhost:8080/api/v1/users/${userId}`, userData);
+    const response = await HttpClient.put(`http://localhost:8080/api/v1/user/${userId}`, userData);
     return response.data.data;
   } catch (error) {
     console.error(error);

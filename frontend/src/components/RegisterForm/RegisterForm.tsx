@@ -1,35 +1,33 @@
+import React, { useState } from "react";
 import { Form, Input, Button, Select, notification } from "antd";
 import { FormInstance } from "antd/lib/form";
-import { useState } from "react";
 import { User } from "@/types/User";
-import { HttpClient } from "@/helpers/http";
 import { createUser } from "@/helpers/UserHttp";
 import openNotification from "@/components/Notification";
 
-const CustomForm: React.FC = () => {
+const RegisterForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values: User, form: FormInstance) => {
-    try {
-      setLoading(true);
-      await createUser(values);
-      form.resetFields();
-
-      openNotification({
-        type: "success",
-        message: "User created successfully",
+    await createUser(values)
+      .then((data) => {
+        setLoading(true);
+        form.resetFields();
+        setLoading(false);
+        openNotification({
+          type: "success",
+          message: "User created successfully",
+        });
+      })
+      .catch((error) => {
+        openNotification({
+          type: "error",
+          message: "Error creating user",
+          description: "Something went wrong",
+        });
+        setLoading(false);
       });
-    } catch (error) {
-      console.error(error);
-      openNotification({
-        type: "error",
-        message: "Error creating user",
-        description: "Something went wrong",
-      });
-    } finally {
-      setLoading(false);
-    }
   };
 
   const onFinishFailed = () => {
@@ -161,4 +159,4 @@ const CustomForm: React.FC = () => {
   );
 };
 
-export default CustomForm;
+export default RegisterForm;

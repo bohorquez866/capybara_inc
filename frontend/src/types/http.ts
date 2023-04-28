@@ -1,8 +1,10 @@
-export interface ApiResponse {
-    message: string;
-    data?: any;
-  }
-  
+export interface ApiResponse<T> {
+  success: boolean;
+  message?: string;
+  data?: T | undefined;
+}
+
+
  export interface ApiError {
     message: string;
     status?: number;
@@ -13,3 +15,13 @@ export interface RequestOptions {
     headers?: any;
     timeout?: number;
   }
+
+  export interface LoginRequest {
+    email: string;
+    password: string;
+  }
+  
+export interface LoginResponse extends ApiResponse<{ token: string }> {
+  data: { token: string };
+}
+  

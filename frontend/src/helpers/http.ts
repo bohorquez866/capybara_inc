@@ -1,42 +1,49 @@
 import axios, { AxiosResponse } from 'axios';
 import { ApiResponse, ApiError, RequestOptions } from '@/types/http';
 
-
-
 export const HttpClient = {
-  get: async (url: string, options?: RequestOptions): Promise<AxiosResponse<ApiResponse>> => {
+  get: async <T>(url: string, options?: RequestOptions): Promise<AxiosResponse<ApiResponse<T>>> => {
     try {
-      const response = await axios.get<ApiResponse>(url, options);
+      const response = await axios.get<ApiResponse<T>>(url, options);
       return response;
     } catch (error) {
       throw formatError(error);
     }
   },
-  post: async (url: string, data?: any, options?: RequestOptions): Promise<AxiosResponse<ApiResponse>> => {
+
+
+  post: async <T>(url: string, data?: any, options?: RequestOptions): Promise<AxiosResponse<ApiResponse<T>>> => {
     try {
-      const response = await axios.post<ApiResponse>(url, data, options);
+      const response = await axios.post<ApiResponse<T>>(url, data, options);
       return response;
     } catch (error) {
       throw formatError(error);
     }
   },
-  put: async (url: string, data?: any, options?: RequestOptions): Promise<AxiosResponse<ApiResponse>> => {
+
+  
+  put: async <T>(url: string, data?: any, options?: RequestOptions): Promise<AxiosResponse<ApiResponse<T>>> => {
     try {
-      const response = await axios.put<ApiResponse>(url, data, options);
+      const response = await axios.put<ApiResponse<T>>(url, data, options);
       return response;
     } catch (error) {
       throw formatError(error);
     }
   },
-  delete: async (url: string, options?: RequestOptions): Promise<AxiosResponse<ApiResponse>> => {
+
+  
+  delete: async <T>(url: string, options?: RequestOptions): Promise<AxiosResponse<ApiResponse<T>>> => {
     try {
-      const response = await axios.delete<ApiResponse>(url, options);
+      const response = await axios.delete<ApiResponse<T>>(url, options);
       return response;
     } catch (error) {
       throw formatError(error);
     }
   },
 };
+
+
+
 
 const formatError = (error: any): ApiError => {
   if (error.response) {

@@ -6,16 +6,14 @@ const userRoutes = require("./users");
 const authRoutes = require("./auth");
 const accountsRoutes = require("./accounts");
 const peopleMovementRoutes = require("./peopleMovements");
-const swaggerRoute = require('./swagger/swagger')
-
-
-
-
+const teamsRoutes = require("./teams");
+const swaggerRoute = require("./swagger/swagger");
 
 router.use("/auth", authRoutes);
 router.use("/users", validateAccessToken, userRoutes);
 router.use("/accounts", validateAccessToken, accountsRoutes);
 router.use("/peopleMovements", validateAccessToken, peopleMovementRoutes);
-router.use(swaggerRoute)
+router.use("/teams", validateAccessToken, teamsRoutes);
+router.use(swaggerRoute);
 
 module.exports = router;
