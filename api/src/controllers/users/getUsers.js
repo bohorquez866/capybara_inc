@@ -4,7 +4,7 @@ const lodash = require("lodash");
 const getUserById = (req, res) => {
   const userId = req.params.id;
 
-  userModel.Users.findByPK(userId)
+  userModel.Users.findByPk(userId)
     .then((user) => {
       const hasValues = !lodash.isEmpty(user);
 

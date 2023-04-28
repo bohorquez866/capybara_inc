@@ -19,5 +19,5 @@ CMD ["npm", "run", "start"]
 
 
 COPY handler.js .
-CMD [ "handler.hello" ]
+# CMD [ "handler.hello" ]
 
