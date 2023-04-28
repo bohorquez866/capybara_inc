@@ -3,10 +3,12 @@ require("dotenv").config();
 const userModel = require("../../models/users");
 
 const registerPost = async (req, res) => {
-  const { email, password, role, username, english_level, cv_url } = req.body;
+  const { email, password, role, username, english_level, cv_url, name } =
+    req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const queryValues = {
+    name,
     email,
     password: hashedPassword,
     username,
