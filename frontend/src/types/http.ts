@@ -4,24 +4,22 @@ export interface ApiResponse<T> {
   data?: T | undefined;
 }
 
-
- export interface ApiError {
-    message: string;
-    status?: number;
-  }
-  
-export interface RequestOptions {
-    params?: any;
-    headers?: any;
-    timeout?: number;
-  }
-
-  export interface LoginRequest {
-    email: string;
-    password: string;
-  }
-  
-export interface LoginResponse extends ApiResponse<{ token: string }> {
-  data: { token: string };
+export interface ApiError {
+  message: string;
+  status?: number;
 }
-  
+
+export interface RequestOptions {
+  params?: any;
+  headers?: any;
+  timeout?: number;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+}

@@ -1,11 +1,24 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import { Inter } from "next/font/google";
+import styles from "../styles/Home.module.css";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { ConfigProvider, theme } from "antd";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (token !== null) token = JSON.parse(token);
+    console.log(token);
+
+    if (!token) router.push("/login");
+  });
+
   return (
     <>
       <Head>
@@ -14,9 +27,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-hola
-      </main>
+
+      <ConfigProvider theme={{ algorithm: theme.defaultAlgorithm }}>
+        <Sidebar />
+
+        <main className={`${styles.main} ${inter.className}`}>
+          welcome home
+        </main>
+      </ConfigProvider>
     </>
-  )
+  );
 }

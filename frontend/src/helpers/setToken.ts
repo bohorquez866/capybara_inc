@@ -1,3 +1,3 @@
 export function setToken(token: string): void {
-    localStorage.setItem("token", token);
-  }
+  localStorage.setItem("token", JSON.stringify({ token }));
+}

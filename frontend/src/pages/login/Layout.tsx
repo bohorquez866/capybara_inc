@@ -1,6 +1,8 @@
+"use client";
 import LoginForm from "@/components/LoginForm/LoginForm";
 import { Layout, Typography } from "antd";
 import { CenteredTitle } from "./styles";
+import { formStyles, titleStyles } from "./LoginForm.styles";
 
 const LoginLayout = () => {
   const { Content } = Layout;
@@ -16,8 +18,10 @@ const LoginLayout = () => {
           padding: "0 50px",
         }}
       >
-        <div>
-          <CenteredTitle level={2}>Log in</CenteredTitle>
+        <div style={formStyles}>
+          <CenteredTitle style={titleStyles} level={2}>
+            Log in
+          </CenteredTitle>
           <LoginForm />
         </div>
       </Content>
