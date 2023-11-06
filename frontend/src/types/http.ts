@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 export interface ApiResponse<T> {
   success: boolean;
   message?: string;
@@ -20,6 +22,6 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface LoginResponse {
+export interface LoginResponse extends User {
   token: string;
 }

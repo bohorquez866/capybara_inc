@@ -1,10 +1,10 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
-import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { ConfigProvider, theme } from "antd";
-import Sidebar from "@/components/Sidebar/Sidebar";
+import { ConfigProvider, Layout, theme } from "antd";
+import MainLayout from "@/components/Layouts/MainLayout/MainLayout";
+import styles from "../styles/Home.module.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,11 +29,11 @@ export default function Home() {
       </Head>
 
       <ConfigProvider theme={{ algorithm: theme.defaultAlgorithm }}>
-        <Sidebar />
-
-        <main className={`${styles.main} ${inter.className}`}>
-          welcome home
-        </main>
+        <MainLayout>
+          <main className={`${styles.main} ${inter.className}`}>
+            welcome home
+          </main>
+        </MainLayout>
       </ConfigProvider>
     </>
   );

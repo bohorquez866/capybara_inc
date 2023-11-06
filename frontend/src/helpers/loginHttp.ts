@@ -41,7 +41,15 @@ export const mockLogin = async ({
     );
 
     if (foundUser) {
-      return Promise.resolve({ token: "token12345565" });
+      return Promise.resolve({
+        token: "token12345565",
+        english_level: "C1",
+        role: "superuser",
+        email: "bohorquez866@gmail.com",
+        cv_url: "",
+        username: "bohorquez866",
+        name: "Jesus R. Bohorquez",
+      });
     }
 
     return Promise.reject(new Error("Invalid login credentials"));

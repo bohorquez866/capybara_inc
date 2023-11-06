@@ -1,15 +1,14 @@
 "use client";
-
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { login, mockLogin } from "@/helpers/loginHttp";
+import { mockLogin } from "@/helpers/loginHttp";
 import { LoginRequest } from "@/types/http";
 import { setToken } from "@/helpers/setToken";
-import openNotification from "@/components/Notification";
-import { redirect } from "next/navigation";
-import { formStyles } from "../../pages/login/LoginForm.styles";
+import openNotification from "@/components/Notification/Notification";
+import { setUser } from "@/helpers/setUser";
+import { User } from "@/types/User";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -30,9 +29,8 @@ const LoginForm = () => {
     setLoading(true);
     mockLogin(values)
       .then((response) => {
-        console.log(response);
-
         setToken(response?.token as string);
+        setUser(response as User);
         openNotification({
           type: "success",
           message: "logged in successfully",

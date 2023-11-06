@@ -1,0 +1,31 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &:is(.title, .title2, h3, h4) {
+    text-align: center !important;
+  }
+}
+
+.aside {
+  height: 100%;
+}
+
+.profileImage {
+  margin: 0 auto;
+  border-radius: 100px;
+  box-shadow: -1px 1px 4px 2px rgba(255, 255, 255, 0.17);
+  display: block;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.logoutBtn {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  &:hover button {
+    color: darken(white, 0.5);
+  }
+}
