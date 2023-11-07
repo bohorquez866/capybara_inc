@@ -2,12 +2,13 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { ConfigProvider, Layout, theme } from "antd";
+import { ConfigProvider, theme } from "antd";
 import MainLayout from "@/components/Layouts/MainLayout/MainLayout";
 import styles from "../styles/Home.module.scss";
 import { useAuth } from "@/context/auth";
 import { Role, useHasPermissionHook } from "@/hooks/useRoleAccess";
-import UserView from "@/components/UserView/UserView";
+import UserView from "@/components/UserView";
+import SuperuserView from "@/components/SuperuserView";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +35,8 @@ export default function Home() {
       <ConfigProvider theme={{ algorithm: theme.defaultAlgorithm }}>
         <MainLayout>
           <main className={`${styles.main} ${inter.className}`}>
-            {isUser && <UserView />}
+            {isSuperUser && <SuperuserView />}
+            {isUser && !isAdmin && <UserView />}
           </main>
         </MainLayout>
       </ConfigProvider>

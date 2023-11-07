@@ -1,0 +1,6 @@
+.card {
+  background-color: #141720 !important;
+  & *:not(input) {
+    color: white;
+  }
+}

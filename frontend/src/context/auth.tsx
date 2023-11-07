@@ -37,7 +37,7 @@ export function AuthProvider({ children }: AuthContextProps) {
 
     setUser({
       english_level: "C1",
-      role: Role.USER,
+      role: Role.SUPERUSER,
       email: "bohorquez866@gmail.com",
       cv_url:
         "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
