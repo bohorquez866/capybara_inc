@@ -2,6 +2,7 @@ import axios from "axios";
 import { HttpClient } from "./http";
 import { LoginRequest, LoginResponse, ApiResponse } from "@/types/http";
 import { error } from "console";
+
 export async function login(
   request: LoginRequest
 ): Promise<ApiResponse<LoginResponse> | unknown> {
@@ -19,7 +20,6 @@ export async function login(
 
     const loginResponse: ApiResponse<LoginResponse> = {
       success: data.success,
-      data: { token: "some token" },
       message: data.message,
     };
 
@@ -35,7 +35,7 @@ export const mockLogin = async ({
   password,
 }: LoginRequest): Promise<LoginResponse | null> => {
   try {
-    const users = await HttpClient.get<LoginRequest[]>("mockUsers.json");
+    const users = await HttpClient.get<LoginRequest[]>("mockLoginUsers.json");
     const foundUser = users.data.find(
       (user) => user.email === email && user.password === password
     );
@@ -46,9 +46,11 @@ export const mockLogin = async ({
         english_level: "C1",
         role: "superuser",
         email: "bohorquez866@gmail.com",
-        cv_url: "",
+        cv_url:
+          "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
         username: "bohorquez866",
         name: "Jesus R. Bohorquez",
+        team: "arroyo",
       });
     }
 

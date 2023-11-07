@@ -8,7 +8,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   const { Content, Sider } = Layout;
 
   return (
-    <Layout hasSider>
+    <Layout hasSider className={styles.container}>
       <Sider className={styles.sider} trigger={<>close</>}>
         <Sidebar />
       </Sider>

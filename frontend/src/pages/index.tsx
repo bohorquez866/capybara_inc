@@ -5,19 +5,18 @@ import { useEffect } from "react";
 import { ConfigProvider, Layout, theme } from "antd";
 import MainLayout from "@/components/Layouts/MainLayout/MainLayout";
 import styles from "../styles/Home.module.scss";
+import { useAuth } from "@/context/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const router = useRouter();
+  const { isLoggedIn } = useAuth();
+  console.log("logged", isLoggedIn);
 
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    if (token !== null) token = JSON.parse(token);
-    console.log(token);
-
-    if (!token) router.push("/login");
-  });
+    if (!isLoggedIn) router.push("/login");
+  }, [isLoggedIn, router]);
 
   return (
     <>
