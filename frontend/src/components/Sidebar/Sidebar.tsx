@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LogoutOutlined } from "@ant-design/icons";
 import { Button, Col, Menu, Modal, Row, Typography } from "antd";
 import Image from "next/image";

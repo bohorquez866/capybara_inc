@@ -6,13 +6,17 @@ import { ConfigProvider, Layout, theme } from "antd";
 import MainLayout from "@/components/Layouts/MainLayout/MainLayout";
 import styles from "../styles/Home.module.scss";
 import { useAuth } from "@/context/auth";
+import { Role, useHasPermissionHook } from "@/hooks/useRoleAccess";
+import UserView from "@/components/UserView/UserView";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
-  console.log("logged", isLoggedIn);
+  const isUser = useHasPermissionHook(Role.USER);
+  const isAdmin = useHasPermissionHook(Role.ADMIN);
+  const isSuperUser = useHasPermissionHook(Role.SUPERUSER);
 
   useEffect(() => {
     if (!isLoggedIn) router.push("/login");
@@ -30,7 +34,7 @@ export default function Home() {
       <ConfigProvider theme={{ algorithm: theme.defaultAlgorithm }}>
         <MainLayout>
           <main className={`${styles.main} ${inter.className}`}>
-            welcome home
+            {isUser && <UserView />}
           </main>
         </MainLayout>
       </ConfigProvider>

@@ -6,12 +6,13 @@ import {
   useState,
 } from "react";
 import { User } from "@/types/User";
+import { Role } from "@/hooks/useRoleAccess";
 
 export interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
+  login: () => void;
   logout: () => void;
-  login: (user: User) => void;
 }
 
 interface AuthContextProps {
@@ -22,24 +23,32 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: AuthContextProps) {
   const [user, setUser] = useState<User | null>(null);
-  const isLoggedIn = !!user;
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const localSession = localStorage.getItem("token") as string;
+    const parsedLocalSession = JSON.parse(localSession);
 
-    if (storedUser && storedUser !== "null") {
-      setUser(JSON.parse(storedUser));
-    }
+    if (parsedLocalSession) setIsLoggedIn(true);
+
+    setUser({
+      english_level: "C1",
+      role: Role.USER,
+      email: "bohorquez866@gmail.com",
+      cv_url:
+        "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
+      username: "bohorquez866",
+      name: "Jesus R. Bohorquez",
+      team: "Arroyo",
+    });
   }, []);
 
-  const login = (user: User) => {
-    localStorage.setItem("user", JSON.stringify(user));
-    setUser(user);
-  };
   const logout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
   };
+
+  const login = () => setIsLoggedIn(true);
 
   const value = {
     user,

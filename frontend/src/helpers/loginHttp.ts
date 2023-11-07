@@ -43,14 +43,6 @@ export const mockLogin = async ({
     if (foundUser) {
       return Promise.resolve({
         token: "token12345565",
-        english_level: "C1",
-        role: "superuser",
-        email: "bohorquez866@gmail.com",
-        cv_url:
-          "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
-        username: "bohorquez866",
-        name: "Jesus R. Bohorquez",
-        team: "arroyo",
       });
     }
 

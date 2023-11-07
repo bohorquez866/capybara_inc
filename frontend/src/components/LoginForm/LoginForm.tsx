@@ -8,10 +8,11 @@ import { LoginRequest } from "@/types/http";
 import { setToken } from "@/helpers/setToken";
 import openNotification from "@/components/Notification/Notification";
 import { setUser } from "@/helpers/setUser";
-import { User } from "@/types/User";
+import { useAuth } from "@/context/auth";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const LoginForm = () => {
     mockLogin(values)
       .then((response) => {
         setToken(response?.token as string);
-        setUser(response as User);
+        login();
         openNotification({
           type: "success",
           message: "logged in successfully",

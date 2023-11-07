@@ -3,6 +3,7 @@ export interface User {
   role: string;
   email: string;
   cv_url: string;
+  image_url?: string;
   username: string;
   name: string;
   team: string;

@@ -7,4 +7,18 @@ export enum Role {
   SUPERUSER = "SUPERUSER",
 }
 
-export function useRoleAccessHook(requiredRole: Role) {}
+export function useHasPermissionHook(requiredRole: Role) {
+  const { user } = useAuth();
+
+  const hasPermission = useMemo(() => {
+    if (!user) {
+      return false;
+    }
+
+    return (
+      user.role.includes(requiredRole) || user.role.includes(Role.SUPERUSER)
+    );
+  }, [user, requiredRole]);
+
+  return hasPermission;
+}
