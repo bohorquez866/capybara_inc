@@ -1,5 +1,7 @@
 import {
+  Dispatch,
   ReactNode,
+  SetStateAction,
   createContext,
   useContext,
   useEffect,
@@ -7,12 +9,14 @@ import {
 } from "react";
 import { User } from "@/types/User";
 import { Role } from "@/hooks/useRoleAccess";
+import { setUser } from "../helpers/setUser";
 
 export interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
   login: () => void;
   logout: () => void;
+  setUser: Dispatch<SetStateAction<User | null>>;
 }
 
 interface AuthContextProps {
@@ -55,6 +59,7 @@ export function AuthProvider({ children }: AuthContextProps) {
     isLoggedIn,
     login,
     logout,
+    setUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
