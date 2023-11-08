@@ -17,13 +17,9 @@ const UserProvider = ({ children }: ContextProps) => {
   };
 
   const updateUser = (user: Record) => {
-    const updatedUsers = users.map((existingUser) => {
-      if (existingUser.email === user.email) {
-        return user;
-      }
-
-      return existingUser;
-    });
+    const userIndex = users.findIndex((us) => us.email === user.email);
+    const updatedUsers = [...users];
+    updatedUsers[userIndex] = user;
     setUsers(updatedUsers);
   };
 

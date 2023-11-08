@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Input, Button } from "antd";
-import { EditUserFormProps } from "./EditUserForm.types";
+import { UserFormProps } from "./UserForm.types";
 import { useUser } from "@/context/Users";
 import { generatePassword } from "@/helpers/generatePassword";
+import { emailRegex } from "@/helpers/loginHttp";
 
-export default function EditUserModa({
+export default function UserModa({
   isOpen,
   onCancel,
   record,
-}: EditUserFormProps) {
+  action,
+}: UserFormProps) {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [password, setPassword] = useState(generatePassword());
 
+  if (action === "add") record = null;
   const { Item } = Form;
-  const { updateUser } = useUser();
+  const { updateUser, addUser } = useUser();
 
   useEffect(() => {
     if (isOpen) {
@@ -22,8 +25,7 @@ export default function EditUserModa({
       setPassword(newPassword);
       form.setFieldsValue({ password: newPassword });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  }, [form, isOpen]);
 
   const handleOk = () => {
     form
@@ -32,7 +34,8 @@ export default function EditUserModa({
         setIsSubmitting(true);
         const updatedRecord = { ...record, ...values };
         console.log("Updated record:", updatedRecord);
-        updateUser(values);
+        action == "add" ? addUser(values) : updateUser(values);
+
         setIsSubmitting(false);
         onCancel();
       })
@@ -68,7 +71,7 @@ export default function EditUserModa({
           rules={[{ required: true }]}
           initialValue={password}
         >
-          <Input />
+          <Input disabled />
         </Item>
 
         <Item>
@@ -78,7 +81,7 @@ export default function EditUserModa({
             onClick={handleOk}
             disabled={isSubmitting}
           >
-            Save Changes
+            {action === "add" ? "Add " : "Save"}
           </Button>
         </Item>
       </Form>

@@ -1,6 +1,8 @@
+import { Role } from "@/hooks/useRoleAccess";
+
 export interface Record {
   name: string;
   email: string;
   password: string;
-  isEditable: boolean;
+  role: Role.ADMIN;
 }

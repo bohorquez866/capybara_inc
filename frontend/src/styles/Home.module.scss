@@ -1,9 +1,11 @@
 .main {
-  display: flex;
-
+  display: grid;
   justify-content: center;
-  align-items: center;
-  padding: 6rem;
+  align-items: stretch;
+  padding: 20px;
+  row-gap: 30px;
+  column-gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
   min-height: 100vh;
 }
 

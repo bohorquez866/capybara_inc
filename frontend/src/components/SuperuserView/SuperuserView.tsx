@@ -1,24 +1,30 @@
 import Card from "../Card/Card";
 import { Button, Input, Popconfirm, Space, Table } from "antd";
-import { EditFilled } from "@ant-design/icons";
 import { Record } from "./SuperUserView.types";
-import { users as initialUsers } from "./data";
 import { useState } from "react";
-import openNotification from "../Notification/Notification";
-import { setUser } from "../../helpers/setUser";
 import { createPortal } from "react-dom";
-import EditUserForm from "./EditUserForm/EditUserForm";
+import EditUserForm from "./UserForm/UserForm";
 import { useUser } from "@/context/Users";
+import { titleStyles } from "../../pages/login/LoginForm.styles";
+import { UserFormProps } from "./UserForm/UserForm.types";
+import CrudTable from "../CrudTable/CrudTable";
 
 export default function SuperuserView() {
   const [selectedRecord, setSelectedRecord] = useState<Record | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // const [users, setUsers] = useState<Record[]>(initialUsers);
   const { users, deleteUser } = useUser();
+  const [formActionType, setFormActionType] =
+    useState<UserFormProps["action"]>("add");
 
   const handleEdit = (record: Record): void => {
     setSelectedRecord(record);
+    setFormActionType("edit");
     setIsOpen(true);
+  };
+
+  const handleAdd = () => {
+    setIsOpen(true);
+    setFormActionType("add");
   };
 
   const columns = [
@@ -38,6 +44,7 @@ export default function SuperuserView() {
       title: "Password",
       dataIndex: "password",
       key: "password",
+      render: (_: any, record: Record) => "**********",
     },
 
     {
@@ -61,16 +68,21 @@ export default function SuperuserView() {
   ];
 
   return (
-    <Card>
-      {createPortal(
-        <EditUserForm
-          isOpen={isOpen}
-          record={selectedRecord as Record}
-          onCancel={() => setIsOpen(false)}
-        />,
-        document.body
-      )}
-      <Table columns={columns} dataSource={users as Record[]} size="middle" />
-    </Card>
+    <CrudTable
+      onClick={handleAdd}
+      buttonText="Add new admin"
+      CardProps={{ title: 'title: "Admins",' }}
+      TableProps={{
+        columns,
+        dataSource: users as Record[],
+      }}
+    >
+      <EditUserForm
+        isOpen={isOpen}
+        record={selectedRecord as Record}
+        onCancel={() => setIsOpen(false)}
+        action={formActionType}
+      />
+    </CrudTable>
   );
 }
