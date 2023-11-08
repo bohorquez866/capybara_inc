@@ -9,6 +9,7 @@ import { useAuth } from "@/context/auth";
 import { Role, useHasPermissionHook } from "@/hooks/useRoleAccess";
 import UserView from "@/components/UserView";
 import SuperuserView from "@/components/SuperuserView";
+import { UserProvider } from "@/context/Users";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,10 +35,12 @@ export default function Home() {
 
       <ConfigProvider theme={{ algorithm: theme.defaultAlgorithm }}>
         <MainLayout>
-          <main className={`${styles.main} ${inter.className}`}>
-            {isSuperUser && <SuperuserView />}
-            {isUser && !isAdmin && <UserView />}
-          </main>
+          <UserProvider>
+            <main className={`${styles.main} ${inter.className}`}>
+              {isSuperUser && <SuperuserView />}
+              {isUser && !isAdmin && <UserView />}
+            </main>
+          </UserProvider>
         </MainLayout>
       </ConfigProvider>
     </>

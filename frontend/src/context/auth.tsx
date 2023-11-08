@@ -1,6 +1,5 @@
 import {
   Dispatch,
-  ReactNode,
   SetStateAction,
   createContext,
   useContext,
@@ -9,7 +8,7 @@ import {
 } from "react";
 import { User } from "@/types/User";
 import { Role } from "@/hooks/useRoleAccess";
-import { setUser } from "../helpers/setUser";
+import { ContextProps } from "./context.types";
 
 export interface AuthContextType {
   user: User | null;
@@ -19,13 +18,9 @@ export interface AuthContextType {
   setUser: Dispatch<SetStateAction<User | null>>;
 }
 
-interface AuthContextProps {
-  children: ReactNode;
-}
-
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider({ children }: AuthContextProps) {
+export function AuthProvider({ children }: ContextProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
