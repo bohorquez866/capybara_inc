@@ -1,73 +1,89 @@
-import React from "react";
 import Card from "../Card/Card";
-import { Input, Table } from "antd";
+import { Button, Input, Popconfirm, Space, Table } from "antd";
+import { EditFilled } from "@ant-design/icons";
+import { Record } from "./SuperUserView.types";
+import { users as initialUsers } from "./data";
+import { useState } from "react";
 
 export default function SuperuserView() {
-  const users = [
-    {
-      name: "John Doe",
-      email: "john.doe@example.com",
-      password: "password",
-    },
-    {
-      name: "Jane Doe",
-      email: "jane.doe@example.com",
-      password: "password",
-    },
-    {
-      name: "Peter Parker",
-      email: "peter.parker@example.com",
-      password: "password",
-    },
-    {
-      name: "Mary Jane Watson",
-      email: "mary.jane.watson@example.com",
-      password: "password",
-    },
-    {
-      name: "Bruce Wayne",
-      email: "bruce.wayne@example.com",
-      password: "password",
-    },
-  ];
+  const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [selectedRecord, setSelectedRecord] = useState<Record | null>(null);
+  const [users, setUsers] = useState<Record[]>(initialUsers);
+
+  const handleEdit = (record: Record) => {
+    console.log(record.isEditable);
+
+    if (record.isEditable) return setIsEditable(false);
+
+    setIsEditable(true);
+    setSelectedRecord(record);
+  };
+
+  const handleDelete = (record: Record) => {
+    const updatedUsers = users.filter((user) => user.email !== record.email);
+    setUsers(updatedUsers);
+  };
 
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      editable: true,
-      render: (text, record) => (
-        <Input value={text} onChange={(e) => (record.name = e.target.value)} />
-      ),
+      render: (text: string, record: Record) => {
+        if (record.isEditable) {
+          return (
+            <>
+              <Input
+                value={text}
+                onChange={(e) => (record.name = e.target.value)}
+              />
+            </>
+          );
+        }
+
+        return (
+          <>
+            <EditFilled onClick={() => handleEdit(record)} />
+            {text}
+          </>
+        );
+      },
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      editable: true,
-      render: (text, record) => (
-        <Input value={text} onChange={(e) => (record.email = e.target.value)} />
-      ),
     },
+
     {
-      title: "Encrypted Password",
+      title: "Password",
       dataIndex: "password",
       key: "password",
-      editable: true,
-      render: (text, record) => (
-        <Input
-          type="password"
-          value={text}
-          onChange={(e) => (record.password = e.target.value)}
-        />
+    },
+
+    {
+      title: "Action",
+      key: "action",
+      render: (_: string, record: Record) => (
+        <Space>
+          <Button type="primary" onClick={() => handleEdit(record)}>
+            {record.isEditable ? "Save" : "Edit"}
+          </Button>
+
+          <Popconfirm
+            title="Are you sure you want to delete this user?"
+            onConfirm={() => handleDelete(record)}
+          >
+            <Button danger>Delete</Button>
+          </Popconfirm>
+        </Space>
       ),
     },
   ];
 
   return (
     <Card>
-      <Table columns={columns} dataSource={users} size="middle" />
+      <Table columns={columns} dataSource={users as Record[]} size="middle" />
     </Card>
   );
 }

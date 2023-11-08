@@ -14,7 +14,6 @@ export default function Sidebar() {
   const { Title, Text } = Typography;
   const { user, logout } = useAuth();
   const router = useRouter();
-  console.log(user);
 
   const handleOk = () => {
     logout();

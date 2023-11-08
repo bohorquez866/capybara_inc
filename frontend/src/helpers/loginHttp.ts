@@ -12,7 +12,6 @@ export async function login(
       request
     );
     const data = response.data;
-    console.log(data);
 
     if (!data) {
       throw new Error(data);

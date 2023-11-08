@@ -1,6 +1,7 @@
 .card {
   background-color: #141720 !important;
-  & *:not(input) {
+
+  &:is(h2, h3, h4, strong, td) {
     color: white;
   }
 }

@@ -7,7 +7,6 @@ import { mockLogin } from "@/helpers/loginHttp";
 import { LoginRequest } from "@/types/http";
 import { setToken } from "@/helpers/setToken";
 import openNotification from "@/components/Notification/Notification";
-import { setUser } from "@/helpers/setUser";
 import { useAuth } from "@/context/auth";
 
 const LoginForm = () => {
@@ -80,7 +79,10 @@ const LoginForm = () => {
 
       <Form.Item
         name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
+        rules={[
+          { required: true, message: "Please input your password!" },
+          { min: 8, message: "your password must be at least 8 chars long" },
+        ]}
       >
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
