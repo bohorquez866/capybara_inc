@@ -111,8 +111,6 @@ export default function AdminView() {
     },
   ];
 
-  console.log(logs);
-
   return (
     <>
       <Button onClick={handleModalMove} className={styles.moveBtn}>

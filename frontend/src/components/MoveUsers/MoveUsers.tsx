@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Form, Input, Select, Button, DatePicker } from "antd";
 import { accountRecords, accountUsers } from "../SuperuserView/data";
 import { useLog } from "@/context/movementLog";
-import { useUser } from "@/context/Users";
 
-export default function MoveUsers({ onCancel }) {
+export default function MoveUsers({ onCancel }: any) {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { addLog } = useLog();
@@ -22,7 +21,6 @@ export default function MoveUsers({ onCancel }) {
       .then((values) => {
         const { user, newAccount, startDate, endDate } = values;
         const oldAccount = accountUsers.find((u) => u.email === user)?.team;
-        console.log(oldAccount);
 
         setIsSubmitting(true);
         updateOriginalArray(user, newAccount);
@@ -37,6 +35,7 @@ export default function MoveUsers({ onCancel }) {
         onCancel();
         form.resetFields();
       })
+
       .catch((error) => console.error("Validation error:", error));
   };
 
