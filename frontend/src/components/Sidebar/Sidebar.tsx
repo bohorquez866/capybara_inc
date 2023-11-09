@@ -52,7 +52,7 @@ export default function Sidebar() {
             className={styles.profileImage}
             width={100}
             height={100}
-            src={user?.cv_url as string}
+            src={user?.image_url as string}
             alt={user?.name as string}
           />
         </Col>
