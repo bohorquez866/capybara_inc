@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import CrudTable from "../CrudTable/CrudTable";
-import { UserFormProps } from "../SuperuserView/UserForm/UserForm.types";
-import { useAccount } from "@/context/accounts";
+import { UserFormProps } from "../UserForm/UserForm.types";
 import { Button, Modal, Popconfirm, Space } from "antd";
 import { AccountRecord, MovementLog } from "@/context/context.types";
 import AccountForm from "./AccountModal/AccountForm";
@@ -9,12 +8,13 @@ import { createPortal } from "react-dom";
 import MoveUsers from "../MoveUsers/MoveUsers";
 import styles from "./AdminView.module.scss";
 import { useLog } from "@/context/movementLog";
+import { useData } from "@/context/data";
 
 export default function AdminView() {
   const [selectedRecord, setSelectedRecord] = useState<{} | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isMoveOpen, setIsMoveOpen] = useState<boolean>(false);
-  const { accounts, deleteAccount } = useAccount();
+  const { accounts, deleteAccount } = useData();
   const { logs } = useLog();
   const [formActionType, setFormActionType] =
     useState<UserFormProps["action"]>("add");

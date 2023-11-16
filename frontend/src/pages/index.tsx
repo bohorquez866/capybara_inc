@@ -9,7 +9,6 @@ import { useAuth } from "@/context/auth";
 import { Role, useHasPermissionHook } from "@/hooks/useRoleAccess";
 import UserView from "@/components/UserView";
 import SuperuserView from "@/components/SuperuserView";
-import { UserProvider } from "@/context/Users";
 import { AccountsProvider } from "@/context/accounts";
 import AdminView from "@/components/AdminView/AdminView";
 import { LogProvider } from "@/context/movementLog";
@@ -41,17 +40,13 @@ export default function Home() {
 
       <ConfigProvider theme={{ algorithm: theme.defaultAlgorithm }}>
         <MainLayout>
-          <UserProvider>
-            <LogProvider>
-              <AccountsProvider>
-                <main className={`${styles.main} ${inter.className}`}>
-                  {isSuperUser && <SuperuserView />}
-                  {isAdmin && <AdminView />}
-                  {isUser && !isAdmin && <UserView />}
-                </main>
-              </AccountsProvider>
-            </LogProvider>
-          </UserProvider>
+          <LogProvider>
+            <AccountsProvider>
+              <main className={`${styles.main} ${inter.className}`}>
+                <UserView />
+              </main>
+            </AccountsProvider>
+          </LogProvider>
         </MainLayout>
       </ConfigProvider>
     </>

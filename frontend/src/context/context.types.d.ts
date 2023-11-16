@@ -4,7 +4,7 @@ export interface AccountRecord {
   accountName: string;
   clientName: string;
   operationLeader: string;
-  teamConsultation: string[];
+  teamConsultation: UserData[];
 }
 
 interface ContextProps {
@@ -13,9 +13,13 @@ interface ContextProps {
 
 export interface ProfilesContextValues {
   users: any[];
+  accounts: any[];
   addUser: (user: Record) => void;
-  deleteUser: (userEmail: string) => void;
+  deleteUser: (userId: string) => void;
   updateUser: (user: Record) => void;
+  addAccount: (account: AccountRecord) => void;
+  deleteAccount: (accountName: string) => void;
+  updateAccount: (account: AccountRecord) => void;
 }
 
 export interface AccountContextValues {

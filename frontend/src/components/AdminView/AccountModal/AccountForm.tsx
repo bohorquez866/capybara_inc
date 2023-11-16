@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Modal, Form, Input, Button } from "antd";
 
-import { useAccount } from "@/context/accounts";
 import { AccountFormProps } from "./AccountForm.types";
+import { useData } from "@/context/data";
 
 export default function UserModa({
   isOpen,
@@ -12,27 +12,21 @@ export default function UserModa({
 }: AccountFormProps) {
   const { Item } = Form;
   const [form] = Form.useForm();
-  const { updateAccount, addAccount } = useAccount();
+  const { updateAccount, addAccount } = useData();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isAdd = action === "add";
 
-  if (action === "add") record = null;
+  if (isAdd) record = null;
 
   const handleOk = () => {
     form
-      .validateFields([
-        "accountName",
-        "clientName",
-        "operationLeader",
-        "teamConsultation",
-      ])
+      .validateFields(["accountName", "clientName", "operationLeader"])
       .then((values) => {
         setIsSubmitting(true);
         const updatedRecord = { ...record, ...values };
         console.log(values);
 
-        action == "add"
-          ? addAccount(updatedRecord)
-          : updateAccount(updatedRecord);
+        isAdd ? addAccount(updatedRecord) : updateAccount(updatedRecord);
         setIsSubmitting(false);
         onCancel();
       })
@@ -40,7 +34,12 @@ export default function UserModa({
   };
 
   return (
-    <Modal open={isOpen} title="Edit User" onCancel={onCancel}>
+    <Modal
+      open={isOpen}
+      title={isAdd ? "Create account" : "Edit account"}
+      onCancel={onCancel}
+      footer={null}
+    >
       <Form form={form} layout="vertical">
         <Item
           label="Account Name"
@@ -69,15 +68,6 @@ export default function UserModa({
           <Input />
         </Item>
 
-        <Item
-          label="Team Consultation"
-          name="teamConsultation"
-          rules={[{ required: true }]}
-          initialValue={record?.teamConsultation}
-        >
-          <Input />
-        </Item>
-
         <Item>
           <Button
             type="primary"
@@ -85,7 +75,7 @@ export default function UserModa({
             onClick={handleOk}
             disabled={isSubmitting}
           >
-            {action === "add" ? "Add " : "Save"}
+            {isAdd ? "Add " : "Save"}
           </Button>
         </Item>
       </Form>

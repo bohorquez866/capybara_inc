@@ -13,7 +13,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         <Sidebar />
       </Sider>
 
-      <Content>{children}</Content>
+      <Content className={styles.content}>{children}</Content>
     </Layout>
   );
 }

@@ -3,16 +3,16 @@ import { Button, Input, Popconfirm, Space, Table } from "antd";
 import { Record } from "./SuperUserView.types";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import EditUserForm from "./UserForm/UserForm";
-import { useUser } from "@/context/Users";
+import EditUserForm from "../UserForm/UserForm";
+import { useData } from "@/context/data";
 import { titleStyles } from "../../pages/login/LoginForm.styles";
-import { UserFormProps } from "./UserForm/UserForm.types";
+import { UserFormProps } from "../UserForm/UserForm.types";
 import CrudTable from "../CrudTable/CrudTable";
 
 export default function SuperuserView() {
   const [selectedRecord, setSelectedRecord] = useState<Record | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { users, deleteUser } = useUser();
+  const { users, deleteUser } = useData();
   const [formActionType, setFormActionType] =
     useState<UserFormProps["action"]>("add");
 
@@ -58,7 +58,7 @@ export default function SuperuserView() {
 
           <Popconfirm
             title="Are you sure you want to delete this user?"
-            onConfirm={() => deleteUser(record.email)}
+            onConfirm={() => deleteUser(record.id)}
           >
             <Button danger>Delete</Button>
           </Popconfirm>

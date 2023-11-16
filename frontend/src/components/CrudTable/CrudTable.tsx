@@ -1,7 +1,5 @@
-import React, { Children } from "react";
 import Card from "../Card/Card";
 import { Button, Modal, Table, CardProps } from "antd";
-import { createPortal } from "react-dom";
 import { CrudTableProps } from "./CrudTable.types";
 
 export default function CrudTable({
@@ -12,7 +10,7 @@ export default function CrudTable({
   children,
 }: CrudTableProps) {
   return (
-    <Card {...CardProps}>
+    <Card CardProps={{ ...CardProps, size: "small" }}>
       {buttonText && (
         <Button style={{ marginBottom: "40px" }} onClick={onClick}>
           {buttonText}

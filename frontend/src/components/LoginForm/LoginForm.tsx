@@ -3,11 +3,12 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { emailRegex, mockLogin } from "@/helpers/loginHttp";
+import { mockLogin } from "@/helpers/loginHttp";
 import { LoginRequest } from "@/types/http";
 import { setToken } from "@/helpers/setToken";
 import openNotification from "@/components/Notification/Notification";
 import { useAuth } from "@/context/auth";
+import { emailRegex } from "@/helpers/regex";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -77,10 +78,7 @@ const LoginForm = () => {
 
       <Form.Item
         name="password"
-        rules={[
-          { required: true, message: "Please input your password!" },
-          { min: 8, message: "your password must be at least 8 chars long" },
-        ]}
+        rules={[{ required: true, message: "Please input your password!" }]}
       >
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
