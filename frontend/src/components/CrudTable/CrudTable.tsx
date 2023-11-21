@@ -1,6 +1,7 @@
 import Card from "../Card/Card";
 import { Button, Modal, Table, CardProps } from "antd";
 import { CrudTableProps } from "./CrudTable.types";
+import styles from "./CrudTable.module.scss";
 
 export default function CrudTable({
   TableProps,
@@ -12,12 +13,16 @@ export default function CrudTable({
   return (
     <Card CardProps={{ ...CardProps, size: "small" }}>
       {buttonText && (
-        <Button style={{ marginBottom: "40px" }} onClick={onClick}>
+        <Button className={styles.button} onClick={onClick}>
           {buttonText}
         </Button>
       )}
       {children}
-      <Table {...TableProps} size="middle" />
+      <Table
+        {...TableProps}
+        scroll={{ x: "calc(700px + 50%)", y: 240 }}
+        size="middle"
+      />
     </Card>
   );
 }

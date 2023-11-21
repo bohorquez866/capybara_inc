@@ -1,6 +1,10 @@
-import { Record } from "@/components/SuperuserView/SuperUserView.types";
+import {
+  Record,
+  UserData,
+} from "@/components/SuperuserView/SuperUserView.types";
 
 export interface AccountRecord {
+  id: string;
   accountName: string;
   clientName: string;
   operationLeader: string;
@@ -14,9 +18,9 @@ interface ContextProps {
 export interface ProfilesContextValues {
   users: any[];
   accounts: any[];
-  addUser: (user: Record) => void;
+  addUser: (user: UserData) => void;
   deleteUser: (userId: string) => void;
-  updateUser: (user: Record) => void;
+  updateUser: (user: UserData) => void;
   addAccount: (account: AccountRecord) => void;
   deleteAccount: (accountName: string) => void;
   updateAccount: (account: AccountRecord) => void;
@@ -39,8 +43,8 @@ export interface MovementLog {
     email: string;
     name: string;
   };
-  oldAccount: string;
-  newAccount: string;
+  oldAccount: AccountRecord;
+  newAccount: AccountRecord;
   startDate: Date;
   endDate: Date;
 }

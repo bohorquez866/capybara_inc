@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import { LogContextValues, MovementLog } from "./context.types";
-import { useAccount } from "./accounts";
 import { accountUsers } from "@/components/SuperuserView/data";
 
 const LogContext = createContext<LogContextValues | null>(null);

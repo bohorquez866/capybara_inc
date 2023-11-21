@@ -10,6 +10,7 @@ export interface Record {
 }
 
 export interface UserData {
+  id: string;
   english_level: string;
   role: Role.ADMIN | Role.USER;
   email: string;

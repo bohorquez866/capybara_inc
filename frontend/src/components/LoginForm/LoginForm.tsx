@@ -9,6 +9,7 @@ import { setToken } from "@/helpers/setToken";
 import openNotification from "@/components/Notification/Notification";
 import { useAuth } from "@/context/auth";
 import { emailRegex } from "@/helpers/regex";
+import styles from "./LoginForm.module.scss";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -91,7 +92,7 @@ const LoginForm = () => {
           type="primary"
           htmlType="submit"
           loading={loading}
-          style={{ width: "100%" }}
+          className={styles.button}
         >
           Log in
         </Button>

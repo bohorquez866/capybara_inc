@@ -1,70 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../Card/Card";
 import styles from "./UserView.module.scss";
-import { Input, Select, Table } from "antd";
+import { Button, Input, Select, Table } from "antd";
 import { useAuth } from "@/context/auth";
 import { User } from "@/types/User";
+import { createPortal } from "react-dom";
+import RegularUserForm from "@/components/regularUserForm";
+import { Record, UserData } from "../SuperuserView/SuperUserView.types";
 
 export default function UserView() {
   const { Option } = Select;
-  const { user, setUser } = useAuth();
-  const { TextArea } = Input;
+  const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const formActionType = "edit";
 
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      editable: true,
-      render: (text: string) => (
-        <Input
-          value={text}
-          onChange={(e) => setUser({ ...user, name: e.target.value } as User)}
-        />
-      ),
     },
+
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
       editable: false,
-      // render: (text: any) => <Input value={text} disabled />,
     },
 
     {
       title: "CV URL",
       dataIndex: "cv_url",
       key: "cv_url",
-      editable: true,
-      render: (text: any) => (
-        <TextArea
-          value={text}
-          autoSize={false}
-          onChange={(e) => setUser({ ...user, cv_url: e.target.value } as User)}
-        />
-      ),
     },
 
     {
       title: "English level",
       dataIndex: "english_level",
       key: "english_level",
-      editable: true,
-      render: (text: any) => (
-        <Select
-          value={text}
-          onChange={(value) =>
-            setUser({ ...user, english_level: value } as User)
-          }
-        >
-          <Option value="C2">C2</Option>
-          <Option value="C1">C1</Option>
-          <Option value="B2">B2</Option>
-          <Option value="B1">B1</Option>
-          <Option value="A2">A2</Option>
-          <Option value="A1">A1</Option>
-        </Select>
-      ),
     },
   ];
 
@@ -75,12 +48,25 @@ export default function UserView() {
         className: styles.card,
       }}
     >
+      <Button onClick={() => setIsOpen(true)}>Edit Info</Button>
       <Table
         columns={columns}
         dataSource={[user as User]}
         pagination={false}
         size="middle"
       />
+
+      {isOpen &&
+        createPortal(
+          <RegularUserForm
+            isOpen={isOpen}
+            record={user}
+            onCancel={() => setIsOpen(false)}
+            action={formActionType}
+            formTitle={"Edit user information"}
+          />,
+          document.body
+        )}
     </Card>
   );
 }

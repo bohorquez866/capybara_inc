@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Modal, Form, Input, Button, Select, SelectProps } from "antd";
+import { useState } from "react";
+import { Form, SelectProps } from "antd";
 import { UserFormProps } from "./UserForm.types";
 import { useData } from "@/context/data";
-import { generatePassword } from "@/helpers/generatePassword";
-import styles from "./UserForm.module.scss";
 import { Role } from "@/hooks/useRoleAccess";
 import {
   emailInputRules,
   passwordInputRules,
   requiredInputRules,
 } from "@/helpers/antdFormRules";
+import CommonForm from "../Form/Form";
+import { CommonFormProps } from "../Form/form.types";
 
 export default function UserModal({
   isOpen,
@@ -18,21 +18,25 @@ export default function UserModal({
   action,
   formTitle,
 }: UserFormProps) {
-  const [form] = Form.useForm();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [password, setPassword] = useState(generatePassword());
-  const [role] = useState<string>(Role.ADMIN);
-  const { Item } = Form;
   const { updateUser, addUser } = useData();
   const isAdd = action === "add";
 
-  const fieldsToValidate = ["name", "email", "role"];
+  const fieldsToValidate: CommonFormProps["fields"] = [
+    { name: "name", rules: [...requiredInputRules] },
+    { name: "email", rules: [...emailInputRules, ...requiredInputRules] },
+    { name: "role", rules: [...requiredInputRules] },
+  ];
 
   if (isAdd) {
-    fieldsToValidate.push("password");
+    fieldsToValidate.push({
+      name: "password",
+      rules: [...requiredInputRules, ...passwordInputRules],
+    });
   }
 
-  const options: SelectProps["options"] = [
+  console.log(record);
+
+  const options = [
     {
       label: Role.USER,
       value: Role.USER,
@@ -46,85 +50,20 @@ export default function UserModal({
 
   if (isAdd) record = null;
 
-  useEffect(() => {
-    if (isOpen) {
-      const newPassword = generatePassword();
-      setPassword(newPassword);
-      form.setFieldsValue({ password: newPassword });
-    }
-  }, [form, isOpen, action]);
-
-  const handleOk = () => {
-    form
-      .validateFields(fieldsToValidate)
-      .then((values) => {
-        setIsSubmitting(true);
-        const updatedRecord = { ...record, ...values };
-        action == "add" ? addUser(values) : updateUser(updatedRecord);
-        setIsSubmitting(false);
-        onCancel();
-      })
-      .then(() => {})
-      .catch((error) => console.error("Validation error:", error));
-  };
-
   return (
-    <Modal
-      open={isOpen}
-      title={formTitle}
+    <CommonForm
+      action={action}
+      formTitle={formTitle}
+      fields={fieldsToValidate}
+      initialValues={fieldsToValidate}
+      isOpen={isOpen}
       onCancel={onCancel}
-      footer={null}
-      destroyOnClose={true}
-    >
-      <Form form={form} className={styles.form} layout="vertical">
-        <Item
-          label="Name"
-          name="name"
-          rules={[{ ...requiredInputRules[0], message: "Please enter a name" }]}
-          initialValue={record?.name}
-        >
-          <Input />
-        </Item>
-        <Item
-          label="Email"
-          name="email"
-          rules={emailInputRules}
-          initialValue={record?.email}
-        >
-          <Input />
-        </Item>
-
-        {isAdd && (
-          <Item
-            label="password"
-            name="password"
-            rules={[...requiredInputRules, ...passwordInputRules]}
-            initialValue={password}
-          >
-            <Input />
-          </Item>
-        )}
-
-        <Item
-          label="Role"
-          name="role"
-          rules={requiredInputRules}
-          initialValue={role}
-        >
-          <Select options={options} />
-        </Item>
-
-        <Item className={styles["form-button"]}>
-          <Button
-            type="primary"
-            block
-            onClick={handleOk}
-            disabled={isSubmitting}
-          >
-            {isAdd ? "Add " : "Save"}
-          </Button>
-        </Item>
-      </Form>
-    </Modal>
+      record={record}
+      selectOptions={options}
+      onSubmit={{
+        add: addUser,
+        update: updateUser,
+      }}
+    />
   );
 }

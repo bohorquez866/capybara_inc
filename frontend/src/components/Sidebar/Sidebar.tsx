@@ -1,19 +1,31 @@
 "use client";
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import { LogoutOutlined } from "@ant-design/icons";
-import { Button, Col, Menu, Modal, Row, Typography } from "antd";
+import { Button, Col, List, Menu, Modal, Row, Typography } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "./sidebar.module.scss";
 import fontsStyles from "@/styles/typography.module.scss";
 import { createPortal } from "react-dom";
 import { useAuth } from "@/context/auth";
+import Link from "next/link";
+import { Role, useHasPermissionHook } from "@/hooks/useRoleAccess";
 
 export default function Sidebar() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [collapsed, setCollapsed] = useState(false);
+
   const { Title, Text } = Typography;
   const { user, logout } = useAuth();
   const router = useRouter();
+  const currentUrl = useRouter().pathname;
+  const isUser = user?.role == Role.USER;
+
+  const { Item } = List;
+
+  const onCollapse = (collapsed: boolean) => {
+    setCollapsed(collapsed);
+  };
 
   const handleOk = () => {
     logout();
@@ -21,6 +33,30 @@ export default function Sidebar() {
   };
   const handleCancel = () => setIsModalOpen(false);
   const handleLogout = () => setIsModalOpen(true);
+
+  interface Items {
+    label: string;
+    key: String;
+    href: string;
+  }
+
+  const items: Items[] = [
+    {
+      label: "Users",
+      key: "home",
+      href: "/users",
+    },
+    {
+      label: "Accounts",
+      key: "accounts",
+      href: "/accounts",
+    },
+    {
+      label: "Logs",
+      key: "logs",
+      href: "/logs",
+    },
+  ];
 
   return (
     <aside className={styles.aside}>
@@ -64,7 +100,24 @@ export default function Sidebar() {
           <Text className={fontsStyles.subtitleText}>{user?.role}</Text>
         </Col>
 
-        <Col>{/* <Menu items={<div></div>} /> */}</Col>
+        {!isUser && (
+          <Col>
+            <List size="small" className={styles.list}>
+              {items.map((item) => (
+                <Item key={item.key as string} className={styles["item-antd"]}>
+                  <Link
+                    className={`${styles["item-link"]} ${
+                      currentUrl === item.href && styles["is-active"]
+                    }`}
+                    href={item.href}
+                  >
+                    {item.label}
+                  </Link>
+                </Item>
+              ))}
+            </List>
+          </Col>
+        )}
 
         <Col className={styles.logoutBtn}>
           <Button onClick={handleLogout} type="link">

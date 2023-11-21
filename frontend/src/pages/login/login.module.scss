@@ -1,0 +1,33 @@
+$form-border-radius: 10px;
+$form-background-color: #fff;
+$form-padding: 30px 20px;
+$form-width: 300px;
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.layout {
+  height: auto;
+}
+
+.form {
+  border-radius: $form-border-radius;
+  background-color: $form-background-color;
+  padding: $form-padding;
+  width: $form-width;
+
+  form {
+    width: 100%;
+  }
+}
+
+.title {
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  font-size: 24px;
+  text-align: center;
+}

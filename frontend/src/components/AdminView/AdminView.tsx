@@ -3,7 +3,7 @@ import CrudTable from "../CrudTable/CrudTable";
 import { UserFormProps } from "../UserForm/UserForm.types";
 import { Button, Modal, Popconfirm, Space } from "antd";
 import { AccountRecord, MovementLog } from "@/context/context.types";
-import AccountForm from "./AccountModal/AccountForm";
+import AccountForm from "../../AccountModal/AccountForm";
 import { createPortal } from "react-dom";
 import MoveUsers from "../MoveUsers/MoveUsers";
 import styles from "./AdminView.module.scss";

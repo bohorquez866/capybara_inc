@@ -44,6 +44,7 @@ export const users: Record[] = [
 
 export const accountUsers: UserData[] = [
   {
+    id: uuidv4(),
     english_level: "C",
     role: Role.ADMIN,
     email: "bohorquez866@gmail.com",
@@ -55,6 +56,8 @@ export const accountUsers: UserData[] = [
   },
 
   {
+    id: uuidv4(),
+
     english_level: "B2",
     role: Role.USER,
     email: "dan124@gmail.com",
@@ -68,19 +71,22 @@ export const accountUsers: UserData[] = [
 
 export const accountRecords: AccountRecord[] = [
   {
+    id: uuidv4(),
     accountName: "Acme Corporation",
     clientName: "John Doe",
     operationLeader: "Jane Smith",
-    teamConsultation: [{ email: "bohorquez866@gmail.com" }],
+    teamConsultation: [{ email: "bohorquez866@gmail.com" } as UserData],
   },
 
   {
+    id: uuidv4(),
     accountName: "Beta Technologies",
     clientName: "Jane Doe",
     operationLeader: "Peter Jones",
     teamConsultation: [],
   },
   {
+    id: uuidv4(),
     accountName: "Gamma Enterprises",
     clientName: "Peter Jones",
     operationLeader: "Mary Johnson",

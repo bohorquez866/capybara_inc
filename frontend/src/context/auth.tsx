@@ -9,13 +9,15 @@ import {
 import { User } from "@/types/User";
 import { Role } from "@/hooks/useRoleAccess";
 import { ContextProps } from "./context.types";
+import { accountRecords } from "@/components/SuperuserView/data";
+import { updateUser } from "../helpers/UserHttp";
 
 export interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
   login: () => void;
   logout: () => void;
-  setUser: Dispatch<SetStateAction<User | null>>;
+  updateUser: Dispatch<SetStateAction<User | null>>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -32,7 +34,7 @@ export function AuthProvider({ children }: ContextProps) {
 
     setUser({
       english_level: "C1",
-      role: Role.USER,
+      role: Role.SUPERUSER,
       email: "bohorquez866@gmail.com",
       image_url:
         "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
@@ -40,9 +42,11 @@ export function AuthProvider({ children }: ContextProps) {
         "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
       username: "bohorquez866",
       name: "Jesus R. Bohorquez",
-      team: "Arroyo",
+      team: "Acme Corporation",
     });
   }, []);
+
+  const updateUser = (newVal: any) => setUser({ ...user, ...newVal });
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -56,7 +60,7 @@ export function AuthProvider({ children }: ContextProps) {
     isLoggedIn,
     login,
     logout,
-    setUser,
+    updateUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

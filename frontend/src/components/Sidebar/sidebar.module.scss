@@ -5,6 +5,7 @@
 
   &:is(.title, .title2, h3, h4) {
     text-align: center !important;
+    font-size: 30px;
   }
 }
 
@@ -27,5 +28,26 @@
   margin-top: auto;
   &:hover button {
     color: darken(white, 0.5);
+  }
+}
+
+.list {
+  margin-top: 40px;
+}
+
+.item-antd {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.item-link {
+  padding: 3px 10px !important;
+
+  &.is-active {
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    font-weight: bold;
+    color: #242424 !important;
   }
 }

@@ -1,4 +1,4 @@
-import AccountForm from "@/components/AdminView/AccountModal/AccountForm";
+import AccountForm from "@/AccountModal/AccountForm";
 import CrudTable from "@/components/CrudTable/CrudTable";
 import MainLayout from "@/components/Layouts/MainLayout";
 import { UserFormProps } from "@/components/UserForm/UserForm.types";
@@ -13,10 +13,9 @@ export default function Accounts() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isMoveOpen, setIsMoveOpen] = useState<boolean>(false);
   const { accounts, deleteAccount } = useData();
+
   const [formActionType, setFormActionType] =
     useState<UserFormProps["action"]>("add");
-
-  console.log(accounts);
 
   const handleEdit = (record: AccountRecord): void => {
     setSelectedRecord(record);
@@ -58,7 +57,7 @@ export default function Accounts() {
       dataIndex: "teamConsultation",
       key: "teamConsultation",
       render: (_: any, record: AccountRecord) => (
-        <>{record.teamConsultation.map((member) => member.email)}</>
+        <>{record.teamConsultation.map((member) => member.email).concat(" ")}</>
       ),
     },
 
@@ -101,6 +100,9 @@ export default function Accounts() {
                 record={selectedRecord as AccountRecord}
                 onCancel={() => setIsOpen(false)}
                 action={formActionType}
+                formTitle={`${
+                  formActionType === "add" ? "Add" : "Edit"
+                } Account`}
               />,
               document.body
             )}

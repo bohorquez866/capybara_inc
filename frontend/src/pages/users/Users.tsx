@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, Popconfirm, Space } from "antd";
+import { Badge, Button, Modal, Popconfirm, Space } from "antd";
 import { UserFormProps } from "@/components/UserForm/UserForm.types";
 import { createPortal } from "react-dom";
 import { useData } from "@/context/data";
@@ -7,7 +7,10 @@ import MainLayout from "@/components/Layouts/MainLayout";
 import MoveUsers from "@/components/MoveUsers/MoveUsers";
 import CrudTable from "@/components/CrudTable/CrudTable";
 import styles from "./users.module.scss";
-import { Record } from "@/components/SuperuserView/SuperUserView.types";
+import {
+  Record,
+  UserData,
+} from "@/components/SuperuserView/SuperUserView.types";
 import EditUserForm from "@/components/UserForm/UserForm";
 
 export default function Users() {
@@ -30,6 +33,27 @@ export default function Users() {
       dataIndex: "email",
       key: "email",
     },
+    {
+      title: "Team",
+      dataIndex: "team",
+      key: "team",
+      render: (_: string, record: UserData) => <>{record.team}</>,
+    },
+    {
+      title: "CV",
+      dataIndex: "cv_url",
+      key: "cv_url",
+      render: (_: any, record: UserData) => {
+        return (
+          <Button type="link" className={styles.cv}>
+            <a href={record.cv_url} target="_blank">
+              See CV
+            </a>
+          </Button>
+        );
+      },
+    },
+
     {
       title: "Role",
       dataIndex: "role",

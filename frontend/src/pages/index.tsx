@@ -8,9 +8,6 @@ import styles from "../styles/Home.module.scss";
 import { useAuth } from "@/context/auth";
 import { Role, useHasPermissionHook } from "@/hooks/useRoleAccess";
 import UserView from "@/components/UserView";
-import SuperuserView from "@/components/SuperuserView";
-import { AccountsProvider } from "@/context/accounts";
-import AdminView from "@/components/AdminView/AdminView";
 import { LogProvider } from "@/context/movementLog";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,9 +15,6 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
-  const isUser = useHasPermissionHook(Role.USER);
-  const isAdmin = useHasPermissionHook(Role.ADMIN);
-  const isSuperUser = useHasPermissionHook(Role.SUPERUSER);
 
   useEffect(() => {
     if (!isLoggedIn) router.push("/login");
@@ -41,11 +35,9 @@ export default function Home() {
       <ConfigProvider theme={{ algorithm: theme.defaultAlgorithm }}>
         <MainLayout>
           <LogProvider>
-            <AccountsProvider>
-              <main className={`${styles.main} ${inter.className}`}>
-                <UserView />
-              </main>
-            </AccountsProvider>
+            <main className={`${styles.main} ${inter.className}`}>
+              <UserView />
+            </main>
           </LogProvider>
         </MainLayout>
       </ConfigProvider>

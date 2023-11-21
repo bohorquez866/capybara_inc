@@ -1,33 +1,42 @@
 import React, { useState } from "react";
-import { Form, Input, Select, Button, DatePicker } from "antd";
+import { Form, Input, Select, Button, DatePicker, DatePickerProps } from "antd";
 import { accountRecords, accountUsers } from "../SuperuserView/data";
 import { useLog } from "@/context/movementLog";
+import { useData } from "@/context/data";
+import { minDateInputRules, requiredInputRules } from "@/helpers/antdFormRules";
+import { json } from "stream/consumers";
+import moment, { Moment } from "moment";
 
 export default function MoveUsers({ onCancel }: any) {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { addLog } = useLog();
   const { Option } = Select;
+  const { accounts, users, updateAccount, updateUser } = useData();
+
+  const fields = ["user", "newAccount", "startDate", "endDate", "oldAccount"];
+
+  const validateDateIsNotPriorToToday: DatePickerProps["disabledDate"] = (
+    current
+  ) => {
+    let customDate = moment().format("YYYY-MM-DD");
+    return current && current < moment(customDate, "YYYY-MM-DD");
+  };
 
   const handleOk = () => {
     form
-      .validateFields([
-        "user",
-        "newAccount",
-        "startDate",
-        "endDate",
-        "oldAccount",
-      ])
+      .validateFields(fields)
       .then((values) => {
         const { user, newAccount, startDate, endDate } = values;
         const oldAccount = accountUsers.find((u) => u.email === user)?.team;
+        console.log(oldAccount);
 
         setIsSubmitting(true);
         updateOriginalArray(user, newAccount);
         addLog({
           user,
           newAccount,
-          oldAccount: oldAccount as string,
+          oldAccount: oldAccount,
           startDate,
           endDate,
         });
@@ -40,7 +49,8 @@ export default function MoveUsers({ onCancel }: any) {
   };
 
   const updateOriginalArray = (user: { email: string }, newTeam: string) => {
-    const clonedUsers = [...accountUsers];
+    const clonedUsers = [...users];
+
     for (let i = 0; i < clonedUsers.length; i++) {
       if (clonedUsers[i].email === user.email) {
         clonedUsers[i].team = newTeam;
@@ -59,7 +69,7 @@ export default function MoveUsers({ onCancel }: any) {
         rules={[{ required: true, message: "Please select a user" }]}
       >
         <Select>
-          {accountUsers.map((u) => (
+          {users.map((u) => (
             <Option key={u.email}>{u.email}</Option>
           ))}
         </Select>
@@ -81,9 +91,9 @@ export default function MoveUsers({ onCancel }: any) {
       <Form.Item
         label="Start Date"
         name={"startDate"}
-        rules={[{ required: true, message: "Please select a start date" }]}
+        rules={[...requiredInputRules, ...minDateInputRules]}
       >
-        <DatePicker />
+        <DatePicker disabledDate={validateDateIsNotPriorToToday} />
       </Form.Item>
 
       <Form.Item

@@ -6,10 +6,25 @@ import styles from "./MainLayout.module.scss";
 
 export default function MainLayout({ children }: MainLayoutProps) {
   const { Content, Sider } = Layout;
+  const [collapsed, setCollapsed] = React.useState(false);
+
+  const onCollapse = (collapsed: boolean) => {
+    setCollapsed(collapsed);
+  };
 
   return (
     <Layout hasSider className={styles.container}>
-      <Sider className={styles.sider} trigger={<>close</>}>
+      <Sider
+        className={styles.sider}
+        collapsible
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+        trigger={
+          <div className="trigger" onClick={() => onCollapse(!collapsed)}>
+            <i className="anticon anticon-menu-unfold" />
+          </div>
+        }
+      >
         <Sidebar />
       </Sider>
 
