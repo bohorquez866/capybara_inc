@@ -57,7 +57,7 @@ export default function CommonForm({
             label={field.name === "password" ? "Password" : field.name}
             name={field.name}
             rules={[...field.rules]}
-            initialValue={record[field.name]}
+            initialValue={record && record[field?.name]}
           >
             {field.name == "role" || field.name == "english_level" ? (
               <Select options={selectOptions} />

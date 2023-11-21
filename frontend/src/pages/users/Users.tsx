@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge, Button, Modal, Popconfirm, Space } from "antd";
 import { UserFormProps } from "@/components/UserForm/UserForm.types";
 import { createPortal } from "react-dom";
@@ -12,6 +12,7 @@ import {
   UserData,
 } from "@/components/SuperuserView/SuperUserView.types";
 import EditUserForm from "@/components/UserForm/UserForm";
+import { getAllUsers } from "@/helpers/users";
 
 export default function Users() {
   const [selectedRecord, setSelectedRecord] = useState<{} | null>(null);
@@ -20,6 +21,12 @@ export default function Users() {
   const { users, deleteUser } = useData();
   const [formActionType, setFormActionType] =
     useState<UserFormProps["action"]>("add");
+
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    token = JSON.parse(token as string).token;
+    getAllUsers(token as string).then;
+  }, []);
 
   const columns = [
     {

@@ -11,11 +11,12 @@ import { Role } from "@/hooks/useRoleAccess";
 import { ContextProps } from "./context.types";
 import { accountRecords } from "@/components/SuperuserView/data";
 import { updateUser } from "../helpers/UserHttp";
+import { setToken } from "@/helpers/setToken";
 
 export interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
-  login: () => void;
+  login: (token: string) => void;
   logout: () => void;
   updateUser: Dispatch<SetStateAction<User | null>>;
 }
@@ -31,19 +32,6 @@ export function AuthProvider({ children }: ContextProps) {
     const parsedLocalSession = JSON.parse(localSession);
 
     if (parsedLocalSession) setIsLoggedIn(true);
-
-    setUser({
-      english_level: "C1",
-      role: Role.SUPERUSER,
-      email: "bohorquez866@gmail.com",
-      image_url:
-        "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
-      cv_url:
-        "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250",
-      username: "bohorquez866",
-      name: "Jesus R. Bohorquez",
-      team: "Acme Corporation",
-    });
   }, []);
 
   const updateUser = (newVal: any) => setUser({ ...user, ...newVal });
@@ -53,7 +41,10 @@ export function AuthProvider({ children }: ContextProps) {
     setIsLoggedIn(false);
   };
 
-  const login = () => setIsLoggedIn(true);
+  const login = (token: string): void => {
+    setIsLoggedIn(true);
+    setToken(token);
+  };
 
   const value = {
     user,
@@ -61,6 +52,7 @@ export function AuthProvider({ children }: ContextProps) {
     login,
     logout,
     updateUser,
+    setUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

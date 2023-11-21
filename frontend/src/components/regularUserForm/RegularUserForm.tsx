@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { Modal, Form, Input, Button } from "antd";
 
-import { useData } from "@/context/data";
 import CommonForm from "@/components/Form";
 import {
   driveUrlInputRules,
   requiredInputRules,
 } from "@/helpers/antdFormRules";
 import { CommonFormProps } from "@/components/Form/form.types";
-import { AccountFormProps } from "@/AccountModal/AccountForm.types";
 import { UserFormProps } from "../UserForm/UserForm.types";
 import { useAuth } from "@/context/auth";
+import { editUserInfo } from "@/helpers/login";
 
 export default function RegularUserModal({
   isOpen,
@@ -18,8 +17,9 @@ export default function RegularUserModal({
   record,
   action,
   formTitle,
+  setUpdate,
+  update,
 }: UserFormProps) {
-  const { updateUser } = useAuth();
   const isAdd = action === "add";
 
   const fieldsToValidate: CommonFormProps["fields"] = [
@@ -55,9 +55,11 @@ export default function RegularUserModal({
     },
   ];
 
-  console.log(record);
-
   if (isAdd) record = null;
+
+  const id = localStorage.getItem("user") as string;
+  const token = localStorage.getItem("token");
+  const parsedToken = JSON.parse(token as string);
 
   return (
     <CommonForm
@@ -71,7 +73,10 @@ export default function RegularUserModal({
       selectOptions={englishOptions}
       onSubmit={{
         add: null,
-        update: updateUser,
+        update: (data: any) => {
+          editUserInfo(id, parsedToken?.token, data);
+          update && setUpdate(update + 1);
+        },
       }}
     />
   );

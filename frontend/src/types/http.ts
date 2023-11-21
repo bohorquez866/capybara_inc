@@ -24,4 +24,10 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
+  message: string;
+}
+
+export interface LoginParams {
+  password: string;
+  email: string;
 }

@@ -3,29 +3,17 @@ import { Layout } from "antd";
 import React from "react";
 import { MainLayoutProps } from "./MainLayout.types";
 import styles from "./MainLayout.module.scss";
+import MobileSidebar from "@/MobileSidebar";
+import { useResponsive } from "@/hooks/useResponsive";
 
 export default function MainLayout({ children }: MainLayoutProps) {
   const { Content, Sider } = Layout;
-  const [collapsed, setCollapsed] = React.useState(false);
-
-  const onCollapse = (collapsed: boolean) => {
-    setCollapsed(collapsed);
-  };
+  const isMobile = useResponsive();
 
   return (
     <Layout hasSider className={styles.container}>
-      <Sider
-        className={styles.sider}
-        collapsible
-        collapsed={collapsed}
-        onCollapse={onCollapse}
-        trigger={
-          <div className="trigger" onClick={() => onCollapse(!collapsed)}>
-            <i className="anticon anticon-menu-unfold" />
-          </div>
-        }
-      >
-        <Sidebar />
+      <Sider className={styles.sider}>
+        {isMobile ? <MobileSidebar /> : <Sidebar />}
       </Sider>
 
       <Content className={styles.content}>{children}</Content>

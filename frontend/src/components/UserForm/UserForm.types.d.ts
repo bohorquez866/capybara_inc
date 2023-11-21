@@ -7,4 +7,6 @@ export interface UserFormProps {
   onCancel: (e?: MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   record: Record | User | null;
   formTitle: string;
+  setUpdate?: any;
+  update?: number;
 }

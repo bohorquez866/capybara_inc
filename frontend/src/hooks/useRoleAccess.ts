@@ -2,9 +2,9 @@ import { useAuth } from "@/context/auth";
 import { useMemo } from "react";
 
 export enum Role {
-  USER = "USER",
-  ADMIN = "ADMIN",
-  SUPERUSER = "SUPERUSER",
+  USER = "user",
+  ADMIN = "admin",
+  SUPERUSER = "superuser",
 }
 
 export function useHasPermissionHook(requiredRole: Role) {

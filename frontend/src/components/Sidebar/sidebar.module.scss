@@ -1,7 +1,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
 
   &:is(.title, .title2, h3, h4) {
     text-align: center !important;

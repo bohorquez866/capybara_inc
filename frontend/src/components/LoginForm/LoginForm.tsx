@@ -1,19 +1,20 @@
 "use client";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { mockLogin } from "@/helpers/loginHttp";
-import { LoginRequest } from "@/types/http";
-import { setToken } from "@/helpers/setToken";
+import { getUserInfo, loginRequest } from "@/helpers/login";
+import { LoginRequest, LoginResponse } from "@/types/http";
 import openNotification from "@/components/Notification/Notification";
 import { useAuth } from "@/context/auth";
 import { emailRegex } from "@/helpers/regex";
 import styles from "./LoginForm.module.scss";
+import { User } from "@/types/User";
+import { setUser } from "@/helpers/setUser";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login: authLogin, updateUser } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -29,15 +30,16 @@ const LoginForm = () => {
 
   const onFinish = (values: LoginRequest) => {
     setLoading(true);
-    mockLogin(values)
-      .then((response) => {
-        setToken(response?.token as string);
-        login();
+
+    loginRequest(values)
+      .then(async (response: any) => {
+        authLogin(response?.token);
         openNotification({
           type: "success",
           message: "logged in successfully",
         });
         setLoading(false);
+        setUser(response.id);
         router.push("/");
       })
       .catch((error) => {
@@ -48,6 +50,7 @@ const LoginForm = () => {
           message: "Error logging in",
           description: error.message,
         });
+
         setLoading(false);
       });
   };
