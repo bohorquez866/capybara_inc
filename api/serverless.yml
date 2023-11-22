@@ -21,8 +21,8 @@ functions:
           method: ANY
     environment:
       JWT_SECRET: sdfsdgsdf45d553tgefgdsdsssHHG$%@!$ddfgfgdf
-      DB_PORT: 3306
+      DB_PORT: 5432
       DB_HOST: localhost
-      DB_USER: root
-      DB_PASSWORD: Jb101226295!
-      DB_NAME: Capybara_inc
+      DB_USER: postgres
+      DB_PASSWORD: 1990119901
+      DB_NAME: capybara

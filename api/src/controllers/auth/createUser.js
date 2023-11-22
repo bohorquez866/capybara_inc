@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 const userModel = require("../../models/users");
+const { UUIDV4 } = require("sequelize");
 
 const registerPost = async (req, res) => {
   const { email, password, role, username, english_level, cv_url, name } =
@@ -15,6 +16,8 @@ const registerPost = async (req, res) => {
     role,
     english_level,
     cv_url,
+    createAt: new Date(),
+    updatedAt: new Date(),
   };
 
   if (role !== "user" && role !== "admin") {

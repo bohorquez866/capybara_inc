@@ -47,4 +47,14 @@ const moveUserToTeam = async (req, res) => {
   }
 };
 
-module.exports = { moveUserToTeam };
+const getUserMovements = async (req, res) => {
+  try {
+    const userTeams = await UserTeams.findAll();
+    res.json(userTeams);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error retrieving user teams");
+  }
+};
+
+module.exports = { moveUserToTeam, getUserMovements };

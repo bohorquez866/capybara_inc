@@ -3,12 +3,18 @@ const bcrypt = require("bcrypt");
 
 const updateUser = async (req, res) => {
   const userId = req.params.id;
-  const { username = "", email = "", password = "" } = req.body;
+  const {
+    name = "",
+    english_level = "",
+    password = "",
+    cv_url = "",
+  } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const updatedValues = {
-    ...(username && { username }),
-    ...(email && { email }),
+    ...(name && { name }),
+    ...(english_level && { english_level }),
+    ...(cv_url && { cv_url }),
     ...(password && { password: hashedPassword }),
   };
 

@@ -5,29 +5,23 @@ const updateAccountRegistryController = require("../controllers/accounts/updateA
 const deleteAccountRegistryController = require("../controllers/accounts/deleteAccount");
 const getAccountsController = require("../controllers/accounts/getAccount");
 
-
-
-
+router.get("/getAllAccounts", getAccountsController.getAllAccounts);
 
 router.get("/getAccountById/:id", getAccountsController.getAccountById);
 
-
-
 router.post(
-    "/addAccountRegistry",
-    createAccountRegistryController.addAccountRegistry
+  "/addAccountRegistry",
+  createAccountRegistryController.addAccountRegistry
 );
 
-
-
 router.put(
-    "/updateAccountRegistry",
-    updateAccountRegistryController.updateAccount
+  "/updateAccountRegistry",
+  updateAccountRegistryController.updateAccount
 );
 
 router.delete(
-    "deleteAccountRegistry",
-    deleteAccountRegistryController.deleteAccount
+  "deleteAccountRegistry",
+  deleteAccountRegistryController.deleteAccount
 );
 
 module.exports = router;

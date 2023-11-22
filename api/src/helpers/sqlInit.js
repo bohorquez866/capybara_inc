@@ -7,16 +7,12 @@ const sequelize = new Sequalize(
   process.env.DB_PASSWORD,
   {
     host: process.env.DB_HOST,
-    dialect: "mysql",
+    dialect: "postgres",
   }
 );
 
 sequelize
   .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch((error) => {
-    console.error("Unable to connect to the database: ", error);
-  });
+  .then(() => console.log("Connection has been established successfully."))
+  .catch((error) => console.error("Unable to connect DB: ", error));
 module.exports = sequelize;

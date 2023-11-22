@@ -20,9 +20,9 @@ const getAccountById = (req, res) => {
 };
 
 const getAllAccounts = (req, res) => {
-  const { limit, role } = req.body;
+  const { limit = 100, role } = req.body;
 
-  if (role !== "superuser") {
+  if (role == "user") {
     return res.status(400).send({
       message: "You are not authorized to do this operation",
       status: "error",
@@ -35,7 +35,7 @@ const getAllAccounts = (req, res) => {
 
       hasValues
         ? res.json({ response })
-        : res.status(404).json({ errorMessage: "No accounts were found" });
+        : res.json({ errorMessage: "No accounts were found", data: [] });
     })
     .catch((err) =>
       res.status(500).send({
