@@ -59,6 +59,7 @@ const DataProvider = ({ children }: ContextProps) => {
     addAccount,
     deleteAccount,
     updateAccount,
+    setUsers,
   };
 
   return <DataConext.Provider value={value}>{children}</DataConext.Provider>;

@@ -52,14 +52,16 @@ export default function Accounts() {
       dataIndex: "operationLeader",
       key: "operationLeader",
     },
-    {
-      title: "Team Consultation",
-      dataIndex: "teamConsultation",
-      key: "teamConsultation",
-      render: (_: any, record: AccountRecord) => (
-        <>{record.teamConsultation.map((member) => member.email).concat(" ")}</>
-      ),
-    },
+    // {
+    //   title: "Team Consultation",
+    //   dataIndex: "teamConsultation",
+    //   key: "teamConsultation",
+    //   render: (_: any, record: AccountRecord) => (
+    //     <>
+    //       {record.teamConsultation?.map((member) => member.email).concat(" ")}
+    //     </>
+    //   ),
+    // },
 
     {
       title: "Action",

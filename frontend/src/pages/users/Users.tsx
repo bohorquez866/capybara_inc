@@ -13,19 +13,27 @@ import {
 } from "@/components/SuperuserView/SuperUserView.types";
 import EditUserForm from "@/components/UserForm/UserForm";
 import { getAllUsers } from "@/helpers/users";
+import { User } from "@/types/User";
 
 export default function Users() {
   const [selectedRecord, setSelectedRecord] = useState<{} | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isMoveOpen, setIsMoveOpen] = useState<boolean>(false);
-  const { users, deleteUser } = useData();
+  const { deleteUser } = useData();
+  const { users, setUsers } = useData();
   const [formActionType, setFormActionType] =
     useState<UserFormProps["action"]>("add");
 
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    token = JSON.parse(token as string).token;
-    getAllUsers(token as string).then;
+    const asynF = async () => {
+      let token = localStorage.getItem("token");
+      token = JSON.parse(token as string).token;
+      const data = await getAllUsers(token as string);
+
+      setUsers(data?.data.response);
+    };
+
+    asynF();
   }, []);
 
   const columns = [
@@ -70,6 +78,7 @@ export default function Users() {
     {
       title: "Action",
       key: "action",
+      fixed: "right",
       render: (_: string, record: Record) => (
         <Space>
           <Button type="primary" onClick={() => handleEdit(record)}>
@@ -82,10 +91,6 @@ export default function Users() {
           >
             <Button danger>Delete</Button>
           </Popconfirm>
-
-          <Button onClick={handleModalMove} className={styles.moveBtn}>
-            Move User
-          </Button>
         </Space>
       ),
     },
@@ -120,6 +125,9 @@ export default function Users() {
             </Modal>,
             document.body
           )}
+        <Button onClick={handleModalMove} className={styles.moveBtn}>
+          Move User
+        </Button>
 
         <CrudTable
           onClick={handleAdd}

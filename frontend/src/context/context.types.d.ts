@@ -24,6 +24,7 @@ export interface ProfilesContextValues {
   addAccount: (account: AccountRecord) => void;
   deleteAccount: (accountName: string) => void;
   updateAccount: (account: AccountRecord) => void;
+  setUsers: Function;
 }
 
 export interface AccountContextValues {

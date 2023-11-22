@@ -8,7 +8,7 @@ import {
 import { endpoints } from "./endpoints";
 import { User } from "@/types/User";
 
-const domain = "http://localhost:8080";
+export const domain = "http://localhost:8080";
 
 export const loginRequest = async ({ email, password }: LoginParams) => {
   const url = `${domain}/${endpoints.login}`;
