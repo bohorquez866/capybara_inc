@@ -4,18 +4,35 @@ import MainLayout from "@/components/Layouts/MainLayout";
 import { UserFormProps } from "@/components/UserForm/UserForm.types";
 import { AccountRecord } from "@/context/context.types";
 import { useData } from "@/context/data";
+import { getAllAccounts } from "@/helpers/accounts";
 import { Button, Popconfirm, Space } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 export default function Accounts() {
   const [selectedRecord, setSelectedRecord] = useState<{} | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isMoveOpen, setIsMoveOpen] = useState<boolean>(false);
-  const { accounts, deleteAccount } = useData();
+  const { accounts, deleteAccount, setAccounts } = useData();
 
   const [formActionType, setFormActionType] =
     useState<UserFormProps["action"]>("add");
+
+  useEffect(() => {
+    const asyncF = async () => {
+      const token = localStorage.getItem("token");
+      const parsedtoken: { token: string } = token && JSON.parse(token);
+
+      try {
+        const accounts = await getAllAccounts(parsedtoken.token);
+
+        if (accounts?.data) setAccounts(accounts);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    asyncF();
+  });
 
   const handleEdit = (record: AccountRecord): void => {
     setSelectedRecord(record);

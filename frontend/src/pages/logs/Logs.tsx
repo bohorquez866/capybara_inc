@@ -2,10 +2,13 @@ import CrudTable from "@/components/CrudTable/CrudTable";
 import MainLayout from "@/components/Layouts/MainLayout";
 import { MovementLog } from "@/context/context.types";
 import { useLog } from "@/context/movementLog";
+import moment from "moment";
 import React from "react";
 
 export default function Logs() {
   const { logs } = useLog();
+  const dateFormat = "MM-DD-YYYY";
+
   const logColumns = [
     {
       title: "User Name",
@@ -27,13 +30,13 @@ export default function Logs() {
       title: "Start Date",
       dataIndex: "startDate",
       key: "startDate",
-      render: (startDate: Date) => startDate.toISOString(),
+      render: (startDate: Date) => moment(startDate).format(dateFormat),
     },
     {
       title: "End Date",
       dataIndex: "endDate",
       key: "endDate",
-      render: (endDate: Date) => endDate.toISOString(),
+      render: (endDate: Date) => moment(endDate).format(dateFormat),
     },
   ];
 

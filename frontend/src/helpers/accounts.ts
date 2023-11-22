@@ -2,14 +2,15 @@ import { HttpClient } from "./http";
 import { endpoints } from "./endpoints";
 import { domain } from "./login";
 
-export const getAllUsers = async (token: string) => {
-  const url = `${domain}/${endpoints.getUsers}`;
+export const getAllAccounts = async (token: string) => {
+  const url = `${domain}/${endpoints.getAllAccounts}`;
   const headers = {
     Authorization: `${token}`,
   };
+
   try {
-    const users = HttpClient.get<any>(url, { headers });
-    return users;
+    const accounts = await HttpClient.get<any>(url, { headers });
+    return accounts;
   } catch (err) {
     console.log(err);
   }

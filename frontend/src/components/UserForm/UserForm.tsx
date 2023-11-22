@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Form, SelectProps } from "antd";
 import { UserFormProps } from "./UserForm.types";
 import { useData } from "@/context/data";
-import { Role } from "@/hooks/useRoleAccess";
+import { Role, useHasPermissionHook } from "@/hooks/useRoleAccess";
 import {
   emailInputRules,
   passwordInputRules,
@@ -35,18 +35,20 @@ export default function UserModal({
   }
 
   console.log(record);
+  const isSuperUser = useHasPermissionHook(Role.SUPERUSER);
 
   const options = [
     {
       label: Role.USER,
       value: Role.USER,
     },
+  ];
 
-    {
+  isSuperUser &&
+    options.push({
       label: Role.ADMIN,
       value: Role.ADMIN,
-    },
-  ];
+    });
 
   if (isAdd) record = null;
 

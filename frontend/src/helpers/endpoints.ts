@@ -6,4 +6,5 @@ export const endpoints = {
   getUserById: `${commonEndpoint}/users/getUser`,
   updateUser: `${commonEndpoint}/users/updateUser`,
   getUsers: `${commonEndpoint}/users/getAllUsers`,
+  getAllAccounts: `${commonEndpoint}/accounts/getAllAccounts`,
 };
